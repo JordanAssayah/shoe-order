@@ -5,3 +5,6 @@ machine:
 dependencies:
   pre:
     - npm install -g swagger
+
+  post:
+    - cd frontend && npm run unit

@@ -11,7 +11,7 @@ describe('controllers', function() {
       it('should return a default string', function(done) {
 
         request(server)
-          .get('/hello')
+          .get('/api/v1/hello')
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
           .expect(200)
@@ -27,7 +27,7 @@ describe('controllers', function() {
       it('should accept a name parameter', function(done) {
 
         request(server)
-          .get('/hello')
+          .get('/api/v1/hello')
           .query({ name: 'Scott'})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
