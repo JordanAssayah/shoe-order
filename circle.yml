@@ -7,5 +7,7 @@ dependencies:
     - npm install -g swagger
     - cd frontend && npm install
 
-  post:
-    - cd frontend && npm run unit
+test:
+  override:
+    - npm run test                 # Run the backend tests
+    - cd frontend && npm run unit  # Run the frontend tests
