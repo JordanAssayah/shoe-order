@@ -9,6 +9,10 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.4",
+    "sequelize-cli": "^2.7.0",
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {

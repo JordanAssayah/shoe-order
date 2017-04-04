@@ -16,6 +16,12 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   swaggerExpress.register(app);
 
   var port = process.env.PORT || 10010;
+  app.set('json spaces', 2);
+  app.use('/api/v1', express.static('./swaggerUI'));
+  app.get('/api/v1', function(req, res) {
+    res.sendFile(__dirname + '/swaggerUI/');
+  });
+
   app.listen(port);
 
   if (swaggerExpress.runner.swagger.paths['/hello']) {
