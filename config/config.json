@@ -7,9 +7,9 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "jordan",
-    "password": "tpi",
-    "database": "tpi_test",
+    "username": "ubuntu",
+    "password": "",
+    "database": "circle_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

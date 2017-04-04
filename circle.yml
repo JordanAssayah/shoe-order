@@ -1,6 +1,8 @@
 machine:
   node:
     version: 6.10.1
+  environment:
+    NODE_ENV: test
 
 dependencies:
   pre:
@@ -9,5 +11,5 @@ dependencies:
 
 test:
   override:
-    - npm run test                 # Run the backend tests
+    - NODE_ENV=test npm run test   # Run the backend tests
     - cd frontend && npm run unit  # Run the frontend tests
