@@ -11,5 +11,5 @@ dependencies:
 
 test:
   override:
-    - NODE_ENV=test npm run test   # Run the backend tests
+    - npm run test   # Run the backend tests
     - cd frontend && npm run unit  # Run the frontend tests
