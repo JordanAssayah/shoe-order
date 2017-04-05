@@ -11,7 +11,8 @@ dependencies:
     - cd frontend && npm install
 
 test:
-  override:
+  pre:
     - sequelize db:migrate         # Initialize the database tables
+  override:    
     - npm run test                 # Run the backend tests
     - cd frontend && npm run unit  # Run the frontend tests
