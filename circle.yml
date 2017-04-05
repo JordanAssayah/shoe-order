@@ -6,10 +6,12 @@ machine:
 
 dependencies:
   pre:
-    - npm install -g swagger
+    - npm install -g swagger 
+    - npm install -g sequelize-cli
     - cd frontend && npm install
 
 test:
   override:
+    - sequelize db:migrate         # Initialize the database tables
     - npm run test                 # Run the backend tests
     - cd frontend && npm run unit  # Run the frontend tests
