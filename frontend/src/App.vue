@@ -1,23 +1,27 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'Custyshoes'
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  <style lang="sass">
+    @import "./assets/bulma/imports.sass"
+
+    body
+      width  : 100vw
+      height : 100vh
+
+    #app
+      -webkit-font-smoothing  : antialiased
+      -moz-osx-font-smoothing : grayscale
+      margin                  : 45px
+
+  </style>
