@@ -26,6 +26,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "swagger project test",
+    "all-start": "node app.js && cd frontend && npm run dev",
+    "all-install": "npm i && cd frontend && npm i"
   }
 }

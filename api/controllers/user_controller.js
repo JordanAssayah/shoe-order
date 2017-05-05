@@ -2,7 +2,14 @@
 
 var db = require('../../models')
 
-module.exports = { getAll, getUserById, create, fullEdit, partialEdit, remove }
+module.exports = {
+  getAll,
+  getUserById,
+  create,
+  fullEdit,
+  partialEdit,
+  remove
+}
 
 function getAll(req, res) {
   db.user.findAll()
@@ -20,7 +27,7 @@ function getUserById(req, res) {
       if(!userObject) {
         throw new Error()
       }
-      
+
       return res.json({ user: userObject })
     })
     .catch(function (error) {
@@ -78,9 +85,9 @@ function fullEdit(req, res) {
     country   : params.country.value,
     state     : params.state.value,
     phone     : params.phone.value
-  }, { 
+  }, {
     where: {
-      id: userId 
+      id: userId
     }
   }).then(function (arrayOfRows) {
     db.user.findById(userId)
@@ -91,7 +98,7 @@ function fullEdit(req, res) {
             message : `Oops! There is no user with the id [${userId}]`
           })
         }
-        
+
         return res.json({
           code    : 200,
           message : `The user with the Id [${userId}] was successfully updated !`,
@@ -116,9 +123,9 @@ function partialEdit(req, res) {
 
   console.log(updatedUser)
 
-  db.user.update(updatedUser, { 
+  db.user.update(updatedUser, {
     where: {
-      id: userId 
+      id: userId
     }
   }).then(function (arrayOfRows) {
     db.user.findById(userId)
@@ -149,7 +156,7 @@ function remove(req, res) {
         throw new Error()
       }
 
-      return res.json({ 
+      return res.json({
         code    : 200,
         message : `User with the Id [${userId}] was successfully deleted !`
       })

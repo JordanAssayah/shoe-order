@@ -27,7 +27,7 @@
             <p><a href="#">Forgot my password</a></p>
           </div>
           <div class="">
-            <input class="button" type="button" value="Login" @click="checkCredentialsAndLogin">
+            <input class="button" type="button" value="Login" @click="checkCredentials">
           </div>
         </div>
       </div>
@@ -36,16 +36,24 @@
 </template>
 
 <script>
+import fetch from 'unfetch'
+
 export default {
   name: 'LoginForm',
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      user: {}
     }
   },
   methods: {
-    checkCredentialsAndLogin () {
+    getAllUsers () {
+      fetch('http://localhost:10010/api/v1/users')
+        .then(success => { success.json().then(res => { this.user = res }) })
+        .then(error   => { console.log(error) })
+    },
+    checkCredentials () {
       let isValidUsername = this.checkUsername(this.username)
       if (isValidUsername) {
         let isValidPassword = this.checkPassword(this.password)
