@@ -34,10 +34,6 @@ paths:
           schema:
             $ref: "#/definitions/GetUsersListResponse"
 
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
     post:
       tags: ["users"]
       summary: Create a new user
@@ -431,8 +427,6 @@ definitions:
     required:
       - code
       - type
-      - messages
-      - fields
     type: object
     properties:
       code:

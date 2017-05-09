@@ -17,7 +17,7 @@ function getAll(req, res) {
       return res.json({ users: arrayOfAllUsers })
     })
     .catch(function (error) {
-      return res.json({ message: error })
+      return res.json({ message: 'Oops !' })
     })
 }
 
