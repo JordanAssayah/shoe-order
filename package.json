@@ -21,11 +21,20 @@
     "eslint-plugin-jasmine": "^2.2.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1",
+    "express-session": "^1.15.2",
+    "moment": "^2.18.1",
     "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "supertest": "^1.0.0",
+    "z-schema": "^3.12.0",
+    "request": "^2.58.0",
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "dotenv": "^1.2.0"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "swagger project test",
+    "all-start": "swagger project start && cd frontend && npm run dev",
+    "all-install": "npm i && cd frontend && npm i"
   }
 }

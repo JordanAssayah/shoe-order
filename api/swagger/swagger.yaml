@@ -4,9 +4,9 @@ info:
   title: Shoe Order API
 # during dev, should point to your local machine
 host: localhost:10010
-# basePath prefixes all resource paths 
+# basePath prefixes all resource paths
 basePath: /api/v1
-# 
+#
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -21,7 +21,7 @@ produces:
 paths:
   /swagger:
     x-swagger-pipe: swagger_raw
-    
+
   /users:
     x-swagger-router-controller: user_controller
     get:
@@ -33,11 +33,7 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/GetUsersListResponse"
-            
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+
     post:
       tags: ["users"]
       summary: Create a new user
@@ -97,7 +93,7 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostUserBadRquestError"
-  
+
   /users/{userId}:
     x-swagger-router-controller: user_controller
     get:
@@ -266,7 +262,43 @@ paths:
           description: Not Found
           schema:
             $ref: "#/definitions/DeleteUserByIdSuccessOrError"
-      
+
+  /login:
+    x-swagger-router-controller: login_controller
+    post:
+      tags: ["login"]
+      summary: Return the loggedIn response
+      operationId: login
+      parameters:
+        - name: username
+          description: the username of the user who want to be logged
+          in: formData
+          required: true
+          type: string
+        - name: password
+          description: the password of the user who want to be logged
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        400:
+          description: Bad Request
+          schema:
+            required:
+              - code
+              - loggedIn
+              - message
+            properties:
+              code:
+                type: number
+              loggedIn:
+                type: boolean
+              message:
+                type: string
 
 # complex objects have schema definitions
 definitions:
@@ -288,7 +320,20 @@ definitions:
     properties:
       message:
         type: string
-        
+
+  LoginResponse:
+    required:
+      - code
+      - loggedIn
+      - message
+    properties:
+      code:
+        type: number
+      loggedIn:
+        type: boolean
+      message:
+        type: string
+
   GetUsersListResponse:
     required:
       - users
@@ -318,7 +363,7 @@ definitions:
               type: string
             updated_at:
               type: string
-    
+
   GetUserResponse:
     required:
       - user
@@ -346,7 +391,7 @@ definitions:
             type: string
           updated_at:
             type: string
-            
+
   PostUserResponse:
     required:
       - code
@@ -377,13 +422,11 @@ definitions:
             type: string
           updated_at:
             type: string
-            
+
   PostUserBadRquestError:
     required:
       - code
       - type
-      - messages
-      - fields
     type: object
     properties:
       code:
@@ -398,7 +441,7 @@ definitions:
         type: array
         items:
           type: string
-          
+
   FullEditUserResponse:
     required:
       - code
@@ -433,7 +476,7 @@ definitions:
             type: string
           updated_at:
             type: string
-  
+
   PartialEditUserResponse:
     required:
       - code
@@ -468,7 +511,7 @@ definitions:
             type: string
           updated_at:
             type: string
-            
+
   FullEditUserByIdNotFound:
     required:
       - code
@@ -479,7 +522,7 @@ definitions:
         type: number
       message:
         type: string
-        
+
   PartialEditUserByIdNotFound:
     required:
       - code
@@ -490,7 +533,7 @@ definitions:
         type: number
       message:
         type: string
-        
+
   DeleteUserByIdSuccessOrError:
     required:
       - code

@@ -9,12 +9,12 @@ This is a website that let people buy custom shoes online
 
 **Step 2:** cd to the cloned repo: `cd shoe-order`
 
-**Step 3:** Install the dependencies with `npm i`
+**Step 3:** Install the all dependencies with `npm run all-install`
 
 
 ## :arrow_forward: How to Run the server
 
 1. cd to the repo
 2. Run the server in
-  * Basic mode `npm start`
+  * Basic mode `npm run all-start`
   * Edit mode `swagger project edit`
