@@ -1,12 +1,13 @@
 'use strict'
 
-var db = require('../../models')
-var usernameError = 'This username is not valid. Please check your credentials !'
-var passwordError = 'This password is not valid. Please check your credentials !'
+var db     = require('../../models')
+var moment = require('moment')
+
+var errorMessage = 'Please check your username or your password !'
 
 module.exports = { login }
 
-function login(req, res) {
+function login (req, res) {
   var username = req.swagger.params.username.value
   var password = req.swagger.params.password.value
 
@@ -14,18 +15,28 @@ function login(req, res) {
     return res.status(400).json({ code: 400, loggedIn: false, message: 'Please insert credentials !' })
   }
 
-  var user = getUserByUsername(username)
-  var
+  getUserByUsername(username).then(function (user) {
+    if (user === null) {
+      return res.status(400).json({ code: 400, loggedIn: false, message: errorMessage })
+    }
+    var isPasswordValid = checkCredentials(user, password)
 
-  console.log(user);
-  if (user === undefined) {
-    return res.status(400).json({ code: 400, loggedIn: false, message: 'This username does not exist !' })
-  }
-  var isPasswordValid = checkCredentials(user, password)
+    /* eslint key-spacing: ["error", {
+        "align": {
+            "beforeColon": true,
+            "afterColon": true,
+            "on": "colon"
+        }
+    }] */
 
-
-  if (user !== undefined) {
     if (isPasswordValid) {
+      let date = moment().format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z'
+      res.header('Access-Control-Allow-Credentials', true)
+      res.header('Access-Control-Allow-Origin', req.headers.origin)
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+      res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Requested-With')
+      res.cookie('username', username, { expires: new Date(date) })
+
       return res.json({
         code     : 200,
         loggedIn : true,
@@ -33,29 +44,25 @@ function login(req, res) {
       })
     }
 
-    return res.status(400).json({ code: 400, loggedIn: false, message: passwordError })
-  }
-
-  return res.status(400).json({ code: 400, loggedIn: false, message: usernameError })
+    return res.status(400).json({ code: 400, loggedIn: false, message: errorMessage })
+  })
 }
 
-function getUserByUsername(username) {
-  return db.user.findOne({where: {username: username}, raw: true})
+function getUserByUsername (username) {
+  return db.user.findOne({where: {username: username}})
     .then(function (userObject) {
       if (!userObject) {
-        throw new Error()
+        return userObject
       }
 
-      return userObject
+      return userObject.get({plain: true})
     })
-    .catch(function (error) {
+    .catch(function () {
       return undefined
     })
 }
 
-function checkCredentials(userData, password) {
-  console.log('checkCredentials method');
-  console.log(userData);
+function checkCredentials (userData, password) {
   if (userData.password === password) {
     return true
   }

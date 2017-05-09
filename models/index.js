@@ -9,9 +9,6 @@ var config    = require(__dirname + '/../config/config.json')[env]
 var db        = {}
 var sequelize
 
-console.log(config)
-console.log(process.env.NODE_ENV)
-
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable])
 } else {

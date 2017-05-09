@@ -7,7 +7,7 @@
             <div class="field-body">
               <div class="field is-grouped">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="text" placeholder="Username" v-model="username">
+                  <input class="input" type="text" placeholder="Username" v-model="credentials.username">
                   <span class="icon is-small is-left">
                     <i class="fa fa-user"></i>
                   </span>
@@ -15,7 +15,7 @@
               </div>
               <div class="field">
                 <p class="control is-expanded has-icons-left has-icons-right">
-                  <input class="input" type="password" placeholder="Password" v-model="password">
+                  <input class="input" type="password" placeholder="Password" v-model="credentials.password">
                   <span class="icon is-small is-left">
                     <i class="fa fa-envelope"></i>
                   </span>
@@ -27,11 +27,15 @@
             <p><a href="#">Forgot my password</a></p>
           </div>
           <div class="">
-            <input class="button" type="button" value="Login" @click="checkCredentials">
+            <input v-bind:class="{ 'is-loading': isLoading }" class="button is-primary" type="button" value="Login" @click="checkCredentials">
           </div>
         </div>
       </div>
     </article>
+    <div class="notification is-primary" v-if="isLoggedIn">
+      <button class="delete"></button>
+      {{ loginMessage }}
+    </div>
   </div>
 </template>
 
@@ -42,53 +46,34 @@ export default {
   name: 'LoginForm',
   data () {
     return {
-      username: '',
-      password: '',
-      user: {}
+      credentials: {
+        username: '',
+        password: ''
+      },
+      isLoading: false,
+      isLoggedIn: false,
+      loginMessage: ''
     }
   },
   methods: {
-    getAllUsers () {
-      fetch('http://localhost:10010/api/v1/users')
-        .then(success => { success.json().then(res => { this.user = res }) })
-        .then(error   => { console.log(error) })
-    },
     checkCredentials () {
-      let isValidUsername = this.checkUsername(this.username)
-      if (isValidUsername) {
-        let isValidPassword = this.checkPassword(this.password)
-        if (isValidPassword) {
-          console.log('You\'re logged in !')
+      this.isLoading = true
+      fetch('http://localhost:10010/api/v1/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `username=${this.credentials.username}&password=${this.credentials.password}`
+      })
+      .then(success       => success.json())
+      .then(loginResponse => {
+        this.isLoading = false
+        if (loginResponse.loggedIn) {
+          this.isLoggedIn   = true
+          this.loginMessage = loginResponse.message
         }
-      }
-    },
-    checkUsername (username) {
-      if (username === '') {
-        console.log('The username cannot be empty, please fill the input')
-
-        return 0
-      }
-      if (username !== 'jordanassayah') {
-        console.log('Are you sure you\'re using the correct username ?')
-
-        return 0
-      }
-
-      return 1
-    },
-    checkPassword (password) {
-      if (password === '') {
-        console.log('The password cannot be empty, please fill the input')
-
-        return 0
-      }
-      if (password !== 'jordanassayah') {
-        console.log('Are you sure you\'re using the correct password ?')
-
-        return 0
-      }
-
-      return 1
+      })
     }
   }
 }
