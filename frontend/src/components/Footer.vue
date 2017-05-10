@@ -42,7 +42,6 @@ export default {
 
 <style lang="sass">
 .footer
-  margin-top       : 30px 
   width            : 100%
   padding          : 1rem
   background-color : #363636

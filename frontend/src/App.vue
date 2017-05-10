@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <CTSHeader />
-    <router-view></router-view>
+    <section class="section main-size">
+      <router-view></router-view>
+    </section>
     <CTSFooter />
   </div>
 </template>
@@ -29,5 +31,8 @@ export default {
     -webkit-font-smoothing  : antialiased
     -moz-osx-font-smoothing : grayscale
     height: 100%
+
+  .main-size
+    min-height: calc(100vh - 108px)
 
 </style>
