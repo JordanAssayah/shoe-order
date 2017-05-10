@@ -1,27 +1,38 @@
 <template>
   <div id="app">
-    <div class="container">
+    <CTSHeader />
+    <section class="section main-size">
       <router-view></router-view>
-    </div>
+    </section>
+    <CTSFooter />
   </div>
 </template>
 
 <script>
+import CTSHeader from '@/components/Header'
+import CTSFooter from '@/components/Footer'
+
 export default {
-  name: 'Custyshoes'
+  name: 'Custyshoes',
+  components: {
+    CTSHeader,
+    CTSFooter
+  }
 }
 </script>
 
-  <style lang="sass">
-    @import "./assets/bulma/imports.sass"
+<style lang="sass">
+  @import "./assets/bulma/imports.sass"
 
-    body
-      width  : 100vw
-      height : 100vh
+  body
+    height : 100vh
 
-    #app
-      -webkit-font-smoothing  : antialiased
-      -moz-osx-font-smoothing : grayscale
-      margin                  : 45px
+  #app
+    -webkit-font-smoothing  : antialiased
+    -moz-osx-font-smoothing : grayscale
+    height: 100%
 
-  </style>
+  .main-size
+    min-height: calc(100vh - 108px)
+
+</style>
