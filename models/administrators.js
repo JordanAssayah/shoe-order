@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Administrators = sequelize.define('Administrators', {
+  var Administrator = sequelize.define('Administrator', {
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -10,9 +10,9 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     classMethods: {
       associate: function(models) {
-        Administrators.hasOne(models.Articles, { foreignKey: { name: 'administrator_id', allowNull: false } })
+        Administrator.hasOne(models.Article, { foreignKey: { name: 'administrator_id' } })
       }
     }
   });
-  return Administrators;
+  return Administrator;
 };

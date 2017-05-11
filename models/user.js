@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define("user", {
+  return sequelize.define("User", {
     id         : {
         type          : DataTypes.INTEGER,
         primaryKey    : true,
@@ -26,15 +26,15 @@ module.exports = function(sequelize, DataTypes) {
         type     : DataTypes.STRING,
         unique   : true,
         allowNull: false,
-        validate : { 
+        validate : {
             isEmail  : true,
             notEmpty : true,
         }
     },
-    birthdate  : { 
+    birthdate  : {
         type     : DataTypes.DATEONLY,
         allowNull: false,
-        validate : { 
+        validate : {
             isDate   : true,
             notEmpty : true,
         }

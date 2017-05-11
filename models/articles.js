@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Articles = sequelize.define('Articles', {
+  var Article = sequelize.define('Article', {
     administrator_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
@@ -10,9 +10,9 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     classMethods: {
       associate: function(models) {
-        Articles.belongsTo(models.Administrators, { as: 'administrator_id' })
+        Article.belongsTo(models.Administrator)
       }
     }
   });
-  return Articles;
+  return Article;
 };

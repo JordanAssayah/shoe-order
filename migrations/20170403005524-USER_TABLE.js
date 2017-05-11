@@ -29,15 +29,15 @@ module.exports = {
           type     : Sequelize.STRING,
           unique   : true,
           allowNull: false,
-          validate : { 
+          validate : {
               isEmail  : true,
               notEmpty : true,
           }
       },
-      birthdate : { 
+      birthdate : {
           type     : Sequelize.DATEONLY,
           allowNull: false,
-          validate : { 
+          validate : {
               isDate   : true,
               notEmpty : true,
           }
@@ -55,10 +55,10 @@ module.exports = {
       },
     }
 
-    return queryInterface.createTable('users', tableOptions, { timestamps: true })    
+    return queryInterface.createTable('Users', tableOptions, { timestamps: true })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('users')
+    return queryInterface.dropTable('Users')
   }
 };

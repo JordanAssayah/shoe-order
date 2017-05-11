@@ -12,17 +12,17 @@ module.exports = {
 }
 
 function getAll(req, res) {
-  db.user.findAll()
+  db.User.findAll()
     .then(function (arrayOfAllUsers){
       return res.json({ users: arrayOfAllUsers })
     })
     .catch(function (error) {
-      return res.json({ message: 'Oops !' })
+      return res.json({ users: [] })
     })
 }
 
 function getUserById(req, res) {
-  db.user.findById(req.swagger.params.userId.value)
+  db.User.findById(req.swagger.params.userId.value)
     .then(function (userObject) {
       if(!userObject) {
         throw new Error()
@@ -37,7 +37,7 @@ function getUserById(req, res) {
 
 function create(req, res) {
   const params = req.swagger.params
-  db.user.create({
+  db.User.create({
     username  : params.username.value,
     password  : params.password.value,
     firstname : params.firstname.value,
@@ -75,7 +75,7 @@ function create(req, res) {
 function fullEdit(req, res) {
   const userId = req.swagger.params.userId.value
   const params = req.swagger.params
-  db.user.update({
+  db.User.update({
     username  : params.username.value,
     password  : params.password.value,
     firstname : params.firstname.value,
@@ -90,7 +90,7 @@ function fullEdit(req, res) {
       id: userId
     }
   }).then(function (arrayOfRows) {
-    db.user.findById(userId)
+    db.User.findById(userId)
       .then(function (userObject) {
         if(!userObject) {
           return res.status(404).json({
@@ -123,12 +123,12 @@ function partialEdit(req, res) {
 
   console.log(updatedUser)
 
-  db.user.update(updatedUser, {
+  db.User.update(updatedUser, {
     where: {
       id: userId
     }
   }).then(function (arrayOfRows) {
-    db.user.findById(userId)
+    db.User.findById(userId)
       .then(function (userObject) {
         if(!userObject) {
           return res.status(404).json({
@@ -150,7 +150,7 @@ function partialEdit(req, res) {
 
 function remove(req, res) {
   const userId = req.swagger.params.userId.value
-  db.user.destroy({ where: { id: userId } })
+  db.User.destroy({ where: { id: userId } })
     .then(function (isUserRemoved) {
       if (!isUserRemoved) {
         throw new Error()
