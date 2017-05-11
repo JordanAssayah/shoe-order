@@ -22,88 +22,100 @@
       <div class="column is-12-tablet is-9-desktop">
         <div class="columns is-multiline">
           <div class="column is-full-tablet is-6-desktop">
+
+            <!-- COLORS OF THE SHOES -->
             <fieldset>
               <legend>Colors</legend>
               <div class="field is-horizontal">
                 <div class="field-body">
-                  <div class="field has-addons">
-                    <p class="control has-icons-left">
-                      <input class="input" type="text" placeholder="Color">
-                      <span class="icon is-small is-left">
-                        <i class="fa fa-paint-brush"></i>
-                      </span>
-                    </p>
-                    <p class="control">
-                      <button type="submit" class="button">
-                        <span class="icons">
-                          <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
-                        </span>
-                      </button>
-                    </p>
-                  </div>
-                  <div class="field has-addons">
-                    <p class="control has-icons-left">
-                      <input class="input" type="text" placeholder="Color">
-                      <span class="icon is-small is-left">
-                        <i class="fa fa-paint-brush"></i>
-                      </span>
-                    </p>
-                    <p class="control">
-                      <button type="submit" class="button">
-                        <span class="icons">
-                          <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
-                        </span>
-                      </button>
-                    </p>
-                  </div>
+                  <ul>
+                    <!-- Will render as many as the administrator will click on "add a new part" -->
+                    <template v-for="(color, index) in newModelSpec.colors">
+                      <li>
+                        <div class="field has-addons">
+                          <p class="control has-icons-left">
+                            <input
+                              class="input"
+                              type="text"
+                              placeholder="Color"
+                              :value="color"
+                              @input="(e) => updateColors(index, e.target.value)"
+                            />
+                            <span class="icon is-small is-left">
+                              <i class="fa fa-paint-brush"></i>
+                            </span>
+                          </p>
+                          <p class="control">
+                            <button type="submit" class="button" @click="removeColor(index)">
+                              <span class="icons">
+                                <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
+                              </span>
+                            </button>
+                          </p>
+                        </div>
+                      </li>
+                    </template>
+                  </ul>
                 </div>
               </div>
-              <p><u>add a new color</u></p>
+              <div class="content">
+                <a @click="addNewColorInput"><u>add a new color</u></a>
+              </div>
             </fieldset>
+
+
+            <!-- PARTS OF THE SHOES -->
             <fieldset style="margin-top: 15px">
               <legend>Parts</legend>
               <div class="field is-horizontal">
                 <div class="field-body">
-                  <div class="field has-addons">
-                    <p class="control has-icons-left">
-                      <input class="input" type="text" placeholder="Part">
-                      <span class="icon is-small is-left">
-                        <i class="fa fa-cube"></i>
-                      </span>
-                    </p>
-                    <p class="control">
-                      <button type="submit" class="button">
-                        <span class="icons">
-                          <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
-                        </span>
-                      </button>
-                    </p>
-                  </div>
-                  <div class="field has-addons">
-                    <p class="control has-icons-left">
-                      <input class="input" type="text" placeholder="Part">
-                      <span class="icon is-small is-left">
-                        <i class="fa fa-cube"></i>
-                      </span>
-                    </p>
-                    <p class="control">
-                      <button type="submit" class="button">
-                        <span class="icons">
-                          <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
-                        </span>
-                      </button>
-                    </p>
-                  </div>
+                  <ul>
+                    <!-- Will render as many as the administrator will click on "add a new part" -->
+                    <template v-for="(part, index) in newModelSpec.parts">
+                      <li>
+                      <div class="field has-addons" :key="index">
+                        <p class="control has-icons-left">
+                            <input
+                              class="input"
+                              type="text"
+                              placeholder="Part"
+                              :value="part"
+                              @input="(e) => updateParts(index, e.target.value)"
+                            />
+                          <span class="icon is-small is-left">
+                            <i class="fa fa-cube"></i>
+                          </span>
+                        </p>
+                        <p class="control">
+                          <button type="submit" class="button" @click="removePart(index)">
+                            <span class="icons">
+                              <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
+                            </span>
+                          </button>
+                        </p>
+                      </div>
+                      </li>
+                    </template>
+                  </ul>
                 </div>
               </div>
-              <p><u>add a new color</u></p>
+              <div class="content">
+                <a @click="addNewPartInput"><u>add a new part</u></a>
+              </div>
             </fieldset>
+
+
+            <!-- BIG BUTTON ADD MODEL -->
             <button type="button" name="button" class="button is-primary is-large" style="margin-top: 30px">
               <span>Add the model</span>
               <span class="icon">
                 <i class="fa fa-plus"></i>
               </span>
             </button>
+
+
+
+
           </div>
           <div class="column is-full-tablet is-5-desktop">
             <fieldset>
@@ -130,25 +142,38 @@
                   </div>
                 </div>
               </div>
-              <p><u>add a new size</u></p>
+              <div class="content">
+                <a><u>add a new size</u></a>
+              </div>
             </fieldset>
 
 
-
+            <!-- NAME OF THE SHOES -->
             <div class="field" style="margin-top: 15px">
               <label class="label">Model Name</label>
               <p class="control">
-                <input class="input" type="text">
+                <input
+                  class="input"
+                  type="text"
+                  :value="newModelSpec.name"
+                  @input="(e) => updateNewModelName(e.target.value)"
+                />
               </p>
             </div>
 
 
 
-
+            <!-- PRICE OF THE SHOES -->
             <div class="field" style="margin-top: 15px">
               <label class="label">Price of the model</label>
               <p class="control">
-                <input class="input" type="number" min="0">
+                <input
+                  class="input"
+                  type="number"
+                  min="0"
+                  :value="newModelSpec.price"
+                  @input="(e) => updateNewModelPrice(e.target.value)"
+                />
               </p>
             </div>
 
@@ -172,8 +197,36 @@
 </template>
 
 <script>
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
+
 export default {
-  name: 'ShoesManager'
+  name: 'ShoesManager',
+  computed: {
+    ...mapGetters({
+      newModelSpec: 'getNewModelSpec'
+    })
+  },
+  methods: {
+    ...mapActions([
+      'updateNewModelPrice',
+      'updateNewModelName',
+      'updateNewModelParts',
+      'updateNewModelColors',
+      'addNewPartInput',
+      'removePart',
+      'addNewColorInput',
+      'removeColor'
+    ]),
+    updateParts (id, nameOfPart) {
+      this.updateNewModelParts({ id, nameOfPart })
+    },
+    updateColors (id, color) {
+      this.updateNewModelColors({ id, color })
+    }
+  }
 }
 </script>
 
