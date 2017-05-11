@@ -342,9 +342,19 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostAdministratorBadRquestError"
-            
+
   /articles:
     x-swagger-router-controller: article_controller
+    get:
+      tags: ["articles"]
+      summary: Get all articles
+      operationId: getAllArticles
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetArticlesListResponse"
+
     post:
       tags: ["articles"]
       summary: Create a new article
@@ -414,6 +424,36 @@ definitions:
       message:
         type: string
 
+  GetArticlesListResponse:
+    required:
+      - articles
+    properties:
+      articles:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            administrator_id:
+              type: integer
+            firstname:
+              type: string
+            lastname:
+              type: string
+            username:
+              type: string
+            pass:
+              type: string
+            state:
+              type: string
+            phone:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
   GetUsersListResponse:
     required:
       - users
@@ -425,19 +465,15 @@ definitions:
           properties:
             id:
               type: integer
-            firstname:
+            administrator_id:
+              type: integer
+            name:
               type: string
-            lastname:
+            description:
               type: string
-            email:
-              type: string
-            birthdate:
-              type: string
-            country:
-              type: string
-            state:
-              type: string
-            phone:
+            price:
+              type: number
+            parts:
               type: string
             created_at:
               type: string
@@ -666,7 +702,7 @@ definitions:
         type: array
         items:
           type: string
-          
+
   PostArticleResponse:
     required:
       - code
@@ -691,23 +727,14 @@ definitions:
             type: string
           updated_at:
             type: string
-          
-  PostArticleBadRquestError: 
+
+  PostArticleBadRquestError:
     required:
       - code
-      - type
+      - message
     type: object
     properties:
       code:
         type: number
-      type:
+      message:
         type: string
-      messages:
-        type: array
-        items:
-          type: string
-      fields:
-        type: array
-        items:
-          type: string
-  

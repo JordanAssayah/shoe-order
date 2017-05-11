@@ -2,7 +2,17 @@
 
 var db = require('../../models')
 
-module.exports = { createArticle }
+module.exports = { getAllArticles, createArticle }
+
+function getAllArticles (req, res) {
+  db.Article.findAll()
+    .then(function (arrayOfAllArticles){
+      return res.json({ articles: arrayOfAllArticles })
+    })
+    .catch(function (error) {
+      return res.json({ articles: [] })
+    })
+}
 
 function createArticle (req, res) {
   const articleObject = req.swagger.params.article.value
@@ -18,33 +28,9 @@ function createArticle (req, res) {
       article: article
     })
   }).catch(function (error) {
-
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log(error);
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-    console.log('WIHVDFOHJADVSFLASVASDVBLASDVHLASDHVHASLD');
-
-    let messages = [ ]
-    let fields   = [ ]
-
-    for (let i = 0; i < error.errors.length; i++) {
-      fields.push(error.errors[i].path)
-    }
-
-    for (let i = 0; i < error.errors.length; i++) {
-      messages.push(error.errors[i].message)
-    }
-
     return res.status(400).json({
-      code     : 400,
-      type     : error.errors[0].type,
-      messages : messages,
-      fields   : fields
+      code    : 400,
+      message : error.parent.detail
     })
 
   })
