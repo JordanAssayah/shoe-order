@@ -49,7 +49,7 @@ function login (req, res) {
 }
 
 function getUserByUsername (username) {
-  return db.user.findOne({where: {username: username}})
+  return db.User.findOne({where: {username: username}})
     .then(function (userObject) {
       if (!userObject) {
         return userObject

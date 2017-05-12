@@ -2,7 +2,9 @@
   <div id="app">
     <CTSHeader />
     <section class="section main-size">
-      <router-view></router-view>
+      <div class="container">
+        <router-view></router-view>
+      </div>
     </section>
     <CTSFooter />
   </div>

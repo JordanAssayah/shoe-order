@@ -16,5 +16,9 @@ This is a website that let people buy custom shoes online
 
 1. cd to the repo
 2. Run the server in
-  * Basic mode `npm run all-start`
+  * Basic mode `swagger project start`
   * Edit mode `swagger project edit`
+3. Open a new terminal
+  * cd to the repo
+  * cd to `frontend`
+  * run the command `npm run dev`

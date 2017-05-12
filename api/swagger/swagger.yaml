@@ -280,6 +280,7 @@ paths:
           in: formData
           required: true
           type: string
+          format: password
       responses:
         200:
           description: OK
@@ -300,8 +301,157 @@ paths:
               message:
                 type: string
 
+  /administrators:
+    x-swagger-router-controller: administrator_controller
+    post:
+      tags: ["admin"]
+      summary: Create a new administrator
+      operationId: createAdmin
+      parameters:
+        - name: username
+          description: Can be anything you want
+          in: formData
+          required: true
+          type: string
+        - name: password
+          description: At least 8 chars
+          in: formData
+          required: true
+          type: string
+        - name: firstname
+          description: Firstame of the new administrator
+          in: formData
+          required: true
+          type: string
+        - name: lastname
+          description: Lastname of the new administrator
+          in: formData
+          required: true
+          type: string
+        - name: email
+          description: Email of the new administrator
+          in: formData
+          required: true
+          type: string
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostAdministratorResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostAdministratorBadRquestError"
+
+  /articles:
+    x-swagger-router-controller: article_controller
+    get:
+      tags: ["articles"]
+      summary: Get all articles
+      operationId: getAllArticles
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetArticlesListResponse"
+
+    post:
+      tags: ["articles"]
+      summary: Create a new article
+      operationId: createArticle
+      parameters:
+        - name: article
+          description: An object containing the paramters of the article
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ArticleObject'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostArticleResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostArticleBadRquestError"
+
+  /articles/{articleId}:
+    x-swagger-router-controller: article_controller
+    get:
+      tags: ["articles"]
+      summary: Get an article by his ID
+      description: Returns an article by his ID with all basic informations
+      operationId: getArticleById
+      parameters:
+        - name: articleId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetArticleResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags: ["articles"]
+      summary: Delete a specific article with his Id
+      description: Will delete all informations about a specific article
+      operationId: deleteArticleById
+      parameters:
+        - name: articleId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+
+
 # complex objects have schema definitions
 definitions:
+
+  ArticleObject:
+    type: object
+    required:
+      - administrator_id
+      - name
+      - description
+      - price
+      - parts
+      - sizes
+      - colors
+    properties:
+      administrator_id:
+        type: number
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: string
+      parts:
+        type: array
+        items:
+          type: string
+      sizes:
+        type: array
+        items:
+          type: string
+      colors:
+        type: array
+        items:
+          type: string
 
   Error:
     type: object
@@ -313,13 +463,6 @@ definitions:
     required:
       - code
       - message
-
-  ErrorResponse:
-    required:
-      - message
-    properties:
-      message:
-        type: string
 
   LoginResponse:
     required:
@@ -334,6 +477,36 @@ definitions:
       message:
         type: string
 
+  GetArticlesListResponse:
+    required:
+      - articles
+    properties:
+      articles:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            administrator_id:
+              type: integer
+            firstname:
+              type: string
+            lastname:
+              type: string
+            username:
+              type: string
+            pass:
+              type: string
+            state:
+              type: string
+            phone:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
   GetUsersListResponse:
     required:
       - users
@@ -345,19 +518,15 @@ definitions:
           properties:
             id:
               type: integer
-            firstname:
+            administrator_id:
+              type: integer
+            name:
               type: string
-            lastname:
+            description:
               type: string
-            email:
-              type: string
-            birthdate:
-              type: string
-            country:
-              type: string
-            state:
-              type: string
-            phone:
+            price:
+              type: number
+            parts:
               type: string
             created_at:
               type: string
@@ -369,6 +538,34 @@ definitions:
       - user
     properties:
       user:
+        type: object
+        properties:
+          id:
+            type: integer
+          firstname:
+            type: string
+          lastname:
+            type: string
+          email:
+            type: string
+          birthdate:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          phone:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  GetArticleResponse:
+    required:
+      - article
+    properties:
+      article:
         type: object
         properties:
           id:
@@ -535,6 +732,96 @@ definitions:
         type: string
 
   DeleteUserByIdSuccessOrError:
+    required:
+      - code
+      - message
+    type: object
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+
+  PostAdministratorResponse:
+    required:
+      - code
+      - administrator
+    properties:
+      code:
+        type: number
+      administrator:
+        type: object
+        properties:
+          id:
+            type: integer
+          firstname:
+            type: string
+          lastname:
+            type: string
+          email:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  PostAdministratorBadRquestError:
+    required:
+      - code
+      - type
+    type: object
+    properties:
+      code:
+        type: number
+      type:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      fields:
+        type: array
+        items:
+          type: string
+
+  PostArticleResponse:
+    required:
+      - code
+      - article
+    properties:
+      code:
+        type: number
+      article:
+        type: object
+        properties:
+          id:
+            type: number
+          administrator_id:
+            type: number
+          name:
+            type: string
+          description:
+            type: string
+          price:
+            type: string
+          parts:
+            type: array
+            items:
+              type: string
+          sizes:
+            type: array
+            items:
+              type: string
+          colors:
+            type: array
+            items:
+              type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  PostArticleBadRquestError:
     required:
       - code
       - message

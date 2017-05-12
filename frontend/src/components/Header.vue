@@ -12,15 +12,15 @@
         </p>
       </div>
       <div class="nav-center">
-        <a href="/" class="nav-item is-active is-tab is-hidden-mobile force-white">Home</a>
-        <a href="/models" class="nav-item is-hidden-mobile force-white">Customize</a>
-        <a href="/about" class="nav-item is-hidden-mobile force-white">About</a>
+        <router-link to="/" class="nav-item is-active is-tab is-hidden-mobile force-white">Home</router-link>
+        <router-link to="/models" class="nav-item is-hidden-mobile force-white">Customize</router-link>
+        <router-link to="/shoes-manager" class="nav-item is-hidden-mobile force-white">About</router-link>
       </div>
       <div class="nav-right nav-menu">
         <a href="#" class="nav-item force-white" @click="toggleLoginSignupMenu">Log in / Sign up</a>
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Home</a>
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Customize</a>
-        <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">About</a>
+        <a href="/shoes-manager" class="nav-item is-hidden-desktop is-hidden-tablet ">About</a>
         <a href="/basket" class="nav-item">
           <span class="icon force-white">
             <i class="fa fa-shopping-cart"></i>
