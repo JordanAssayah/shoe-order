@@ -429,6 +429,8 @@ definitions:
       - description
       - price
       - parts
+      - sizes
+      - colors
     properties:
       administrator_id:
         type: number
@@ -437,9 +439,19 @@ definitions:
       description:
         type: string
       price:
-        type: number
-      parts:
         type: string
+      parts:
+        type: array
+        items:
+          type: string
+      sizes:
+        type: array
+        items:
+          type: string
+      colors:
+        type: array
+        items:
+          type: string
 
   Error:
     type: object
@@ -782,16 +794,28 @@ definitions:
       article:
         type: object
         properties:
+          id:
+            type: number
           administrator_id:
-            type: integer
+            type: number
           name:
             type: string
           description:
             type: string
           price:
-            type: number
-          parts:
             type: string
+          parts:
+            type: array
+            items:
+              type: string
+          sizes:
+            type: array
+            items:
+              type: string
+          colors:
+            type: array
+            items:
+              type: string
           created_at:
             type: string
           updated_at:

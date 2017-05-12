@@ -4,8 +4,10 @@ module.exports = function(sequelize, DataTypes) {
     administrator_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    price: DataTypes.FLOAT,
-    parts: DataTypes.JSON
+    price: DataTypes.STRING,
+    parts: DataTypes.JSON,
+    sizes: DataTypes.JSON,
+    colors: DataTypes.JSON,
   }, {
     underscored: true,
     classMethods: {

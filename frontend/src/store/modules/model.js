@@ -4,12 +4,14 @@ import * as types from '../mutations-types'
 /* eslint key-spacing: ["error", { "align": "colon" }] */
 const state = {
   newModelSpec: {
-    colors: [''],
-    sizes : ['20'],
-    parts : [''],
-    name  : '',
-    price : undefined
-  }
+    colors     : [''],
+    sizes      : ['20'],
+    parts      : [''],
+    name       : '',
+    price      : undefined,
+    description: ''
+  },
+  addModelMessage: ''
 }
 
 // getters
@@ -19,6 +21,25 @@ const getters = {
 
 // actions
 const actions = {
+  addNewModelSpecInDB ({ commit, state }) {
+    const plainObject = { ...state.newModelSpec, administrator_id: 1 }
+    console.log(JSON.stringify(plainObject))
+    fetch('http://localhost:10010/api/v1/articles', {
+      method : 'POST',
+      headers: {
+        'Accept'      : 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(plainObject)
+    })
+    .then(success       => success.json())
+    .then(addArticleResponse => {
+      console.log(addArticleResponse)
+      if (addArticleResponse.code === 201) {
+        commit(types.ADD_NEW_MODEL_IN_DB)
+      }
+    })
+  },
   addNewPartInput ({ commit }) {
     commit(types.ADD_NEW_PART_INPUT)
   },
@@ -33,6 +54,9 @@ const actions = {
   },
   updateNewModelName ({ commit }, newName) {
     commit(types.UPDATE_NEW_MODEL_NAME, newName)
+  },
+  updateNewModelDescription ({ commit }, description) {
+    commit(types.UPDATE_NEW_MODEL_DESCRIPTION, description)
   },
   updateNewModelParts ({ commit }, partToUpdate) {
     commit(types.UPDATE_NEW_MODEL_PARTS, partToUpdate)
@@ -57,12 +81,27 @@ const actions = {
 // mutations
 const mutations = {
 
+  [types.ADD_NEW_MODEL_IN_DB] (state) {
+    state.newModelSpec = {
+      colors     : [''],
+      sizes      : ['20'],
+      parts      : [''],
+      name       : '',
+      price      : undefined,
+      description: ''
+    }
+  },
+
   [types.UPDATE_NEW_MODEL_PRICE] (state, newPrice) {
     state.newModelSpec.price = newPrice
   },
 
   [types.UPDATE_NEW_MODEL_NAME] (state, newName) {
     state.newModelSpec.name = newName
+  },
+
+  [types.UPDATE_NEW_MODEL_DESCRIPTION] (state, description) {
+    state.newModelSpec.description = description
   },
 
   [types.UPDATE_NEW_MODEL_PARTS] (state, {id, nameOfPart}) {

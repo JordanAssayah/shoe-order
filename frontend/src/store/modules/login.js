@@ -1,5 +1,4 @@
 import * as types from '../mutations-types'
-import fetch      from 'unfetch'
 
 /* eslint key-spacing: ["error", { "align": "colon" }] */
 

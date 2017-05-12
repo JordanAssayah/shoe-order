@@ -9,8 +9,11 @@ export const TOGGLE_HAMBURGER_MENU    = 'TOGGLE_HAMBURGER_MENU'
 /* ------------------------  /
 /  ----- MODEL TYPES  -----  /
 /  ------------------------ */
-export const UPDATE_NEW_MODEL_PRICE = 'UPDATE_NEW_MODEL_PRICE'
-export const UPDATE_NEW_MODEL_NAME  = 'UPDATE_NEW_MODEL_NAME'
+export const ADD_NEW_MODEL_IN_DB = 'ADD_NEW_MODEL_IN_DB'
+
+export const UPDATE_NEW_MODEL_PRICE        = 'UPDATE_NEW_MODEL_PRICE'
+export const UPDATE_NEW_MODEL_NAME         = 'UPDATE_NEW_MODEL_NAME'
+export const UPDATE_NEW_MODEL_DESCRIPTION  = 'UPDATE_NEW_MODEL_DESCRIPTION'
 
 // for parts
 export const UPDATE_NEW_MODEL_PARTS = 'UPDATE_NEW_MODEL_PARTS'

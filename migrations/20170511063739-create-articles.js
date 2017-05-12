@@ -23,9 +23,15 @@ module.exports = {
         type: Sequelize.TEXT
       },
       price: {
-        type: Sequelize.FLOAT
+        type: Sequelize.STRING
       },
       parts: {
+        type: Sequelize.JSON
+      },
+      sizes: {
+        type: Sequelize.JSON
+      },
+      colors: {
         type: Sequelize.JSON
       },
       created_at: {

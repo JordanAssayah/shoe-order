@@ -175,6 +175,21 @@
             </div>
 
 
+            <!-- description OF THE SHOES -->
+            <div class="field" style="margin-top: 15px">
+              <label class="label">Description</label>
+              <p class="control">
+                <textarea
+                  class="textarea"
+                  placeholder="Description"
+                  @input="(e) => updateNewModelDescription(e.target.value)"
+                >
+                  {{ newModelSpec.description }}
+                </textarea>
+              </p>
+            </div>
+
+
             <button class="button is-fullwidth" style="margin-top: 25px">
               <span>Import pictures of the model</span>
               <span class="icon">
@@ -212,6 +227,9 @@
             <h5><u>Model name</u></h5>
             <p>{{ newModelSpec.name }}</p>
 
+            <h5><u>Model description</u></h5>
+            <p>{{ newModelSpec.description }}</p>
+
             <h5><u>Colors</u></h5>
             <p>
               <template v-for="(color, index) in newModelSpec.colors">
@@ -245,7 +263,7 @@
         </section>
         <footer class="modal-card-foot is-flex is-flex-pulled-right">
           <a class="button" @click="toggleModal">Cancel</a>
-          <a class="button is-success">Save changes</a>
+          <a class="button is-success" @click="addNewModelSpecInDB">Save changes</a>
         </footer>
       </div>
     </div>
@@ -277,6 +295,7 @@ export default {
     ...mapActions([
       'updateNewModelPrice',
       'updateNewModelName',
+      'updateNewModelDescription',
       'updateNewModelParts',
       'updateNewModelColors',
       'updateNewModelSizes',
@@ -285,7 +304,8 @@ export default {
       'addNewColorInput',
       'removeColor',
       'addNewSizeInput',
-      'removeSize'
+      'removeSize',
+      'addNewModelSpecInDB'
     ]),
     updateParts (id, nameOfPart) {
       this.updateNewModelParts({ id, nameOfPart })

@@ -30,16 +30,29 @@ function getArticleById (req, res) {
 
 function createArticle (req, res) {
   const articleObject = req.swagger.params.article.value
+
   db.Article.create({
     administrator_id : articleObject.administrator_id,
     name             : articleObject.name,
     description      : articleObject.description,
     price            : articleObject.price,
     parts            : articleObject.parts,
+    sizes            : articleObject.sizes,
+    colors           : articleObject.colors,
   }).then(function (article) {
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log(article.get({plain: true}))
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+    console.log('asdjhfvalsvflafadljsvfddhd');
+
     return res.status(201).json({
-      code: 201,
-      article: article
+      code    : 201,
+      article : article.get({plain: true})
     })
   }).catch(function (error) {
     return res.status(400).json({

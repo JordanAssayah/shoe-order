@@ -6,6 +6,8 @@ import App    from './App'
 import store  from './store'
 import router from './router'
 
+import 'unfetch/polyfill'
+
 Vue.use(Vuex)
 Vue.config.productionTip = false
 
