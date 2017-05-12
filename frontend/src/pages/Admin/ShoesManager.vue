@@ -5,9 +5,7 @@
       <!-- column for explainations -->
       <div class="column is-12-tablet is-2-desktop">
         <div class="" style="height: 100%;">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ul</p>
         </div>
       </div>
 
@@ -104,46 +102,45 @@
               </div>
             </fieldset>
 
-
-            <!-- BIG BUTTON ADD MODEL -->
-            <button type="button" name="button" class="button is-primary is-large" style="margin-top: 30px">
-              <span>Add the model</span>
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>
-            </button>
-
-
-
-
           </div>
           <div class="column is-full-tablet is-5-desktop">
             <fieldset>
               <legend>Sizes</legend>
               <div class="field is-horizontal">
                 <div class="field-body">
-                  <div class="field has-addons">
-                    <div class="control has-icons-left">
-                      <div class="select is-fullwidth">
-                        <select>
-                          <option>Business development</option>
-                          <option>Marketing</option>
-                          <option>Sales</option>
-                        </select>
+                  <ul>
+                    <!-- Will render as many as the administrator will click on "add a new size" -->
+                    <template v-for="(size, index) in newModelSpec.sizes">
+                      <li>
+                      <div class="field has-addons" :key="index">
+                        <p class="control has-icons-left">
+                            <input
+                              class="input"
+                              type="number"
+                              step="0.5"
+                              placeholder="Size"
+                              :value="size"
+                              @input="(e) => updateSizes(index, e.target.value)"
+                            />
+                          <span class="icon is-small is-left">
+                            <i class="fa fa-arrows-h"></i>
+                          </span>
+                        </p>
+                        <p class="control">
+                          <button type="submit" class="button" @click="removeSize(index)">
+                            <span class="icons">
+                              <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
+                            </span>
+                          </button>
+                        </p>
                       </div>
-                    </div>
-                    <p class="control">
-                      <button type="submit" class="button">
-                        <span class="icons">
-                          <i class="fa fa-times fa-2x" style="color:#ff3860"></i>
-                        </span>
-                      </button>
-                    </p>
-                  </div>
+                      </li>
+                    </template>
+                  </ul>
                 </div>
               </div>
               <div class="content">
-                <a><u>add a new size</u></a>
+                <a @click="addNewSizeInput"><u>add a new size</u></a>
               </div>
             </fieldset>
 
@@ -189,10 +186,72 @@
 
           </div>
         </div>
-
+        <!-- BIG BUTTON ADD MODEL -->
+        <button
+          type="button"
+          name="button"
+          class="button is-success is-large"
+          style="margin-top: 30px"
+          @click="toggleModal"
+        >
+          Add the model
+        </button>
       </div>
 
     </div>
+
+
+
+
+    <div class="modal" :class="{ 'is-active': isModalOpen }">
+      <div class="modal-background"></div>
+      <div class="modal-card is-top-rounded">
+        <section class="modal-card-body">
+          <h4 class="title is-4">Confirm the new model</h4>
+          <div class="content">
+            <h5><u>Model name</u></h5>
+            <p>{{ newModelSpec.name }}</p>
+
+            <h5><u>Colors</u></h5>
+            <p>
+              <template v-for="(color, index) in newModelSpec.colors">
+                {{ color }}
+                <template v-if="index > -1 && index < newModelSpec.colors.length -1">,</template>
+              </template>
+            </p>
+
+            <h5><u>Parts</u></h5>
+            <p>
+              <template v-for="(part, index) in newModelSpec.parts">
+                {{ part }}
+                <template v-if="index > -1 && index < newModelSpec.parts.length -1">,</template>
+              </template>
+            </p>
+
+            <h5><u>Sizes</u></h5>
+            <p>
+              <template v-for="(size, index) in newModelSpec.sizes">
+                {{ size }}
+                <template v-if="index > -1 && index < newModelSpec.sizes.length -1">,</template>
+              </template>
+            </p>
+
+            <h5><u>Price</u></h5>
+            <p>
+              {{ newModelSpec.price }}
+              <template v-if="newModelSpec.price !== undefined">CHF</template>
+            </p>
+          </div>
+        </section>
+        <footer class="modal-card-foot is-flex is-flex-pulled-right">
+          <a class="button" @click="toggleModal">Cancel</a>
+          <a class="button is-success">Save changes</a>
+        </footer>
+      </div>
+    </div>
+
+
+
   </div>
 </template>
 
@@ -204,6 +263,11 @@ import {
 
 export default {
   name: 'ShoesManager',
+  data () {
+    return {
+      isModalOpen: false
+    }
+  },
   computed: {
     ...mapGetters({
       newModelSpec: 'getNewModelSpec'
@@ -215,22 +279,31 @@ export default {
       'updateNewModelName',
       'updateNewModelParts',
       'updateNewModelColors',
+      'updateNewModelSizes',
       'addNewPartInput',
       'removePart',
       'addNewColorInput',
-      'removeColor'
+      'removeColor',
+      'addNewSizeInput',
+      'removeSize'
     ]),
     updateParts (id, nameOfPart) {
       this.updateNewModelParts({ id, nameOfPart })
     },
     updateColors (id, color) {
       this.updateNewModelColors({ id, color })
+    },
+    updateSizes (id, size) {
+      this.updateNewModelSizes({ id, size })
+    },
+    toggleModal () {
+      this.isModalOpen = this.isModalOpen !== true
     }
   }
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   fieldset
     border: none
     border-radius: 5px
@@ -247,4 +320,21 @@ export default {
   .make-it-flex-centered
     display: flex
     justify-content: center
+
+  .is-top-rounded
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
+
+  .is-flex-pulled-right
+    justify-content: flex-end
+
+  .modal-card
+    width: auto
+    min-width: 400px
+    max-width: 400px
+    .tag:not(:first-child)
+      margin-left: 5px
+
+  li:not(:first-child)
+    margin-top: 15px
 </style>

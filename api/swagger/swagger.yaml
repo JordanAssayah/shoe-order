@@ -376,6 +376,47 @@ paths:
           schema:
             $ref: "#/definitions/PostArticleBadRquestError"
 
+  /articles/{articleId}:
+    x-swagger-router-controller: user_controller
+    get:
+      tags: ["articles"]
+      summary: Get an article by his ID
+      description: Returns an article by his ID with all basic informations
+      operationId: getArticleById
+      parameters:
+        - name: articleId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetArticleResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags: ["articles"]
+      summary: Delete a specific article with his Id
+      description: Will delete all informations about a specific article
+      operationId: deleteArticleById
+      parameters:
+        - name: articleId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+
 
 # complex objects have schema definitions
 definitions:
@@ -485,6 +526,34 @@ definitions:
       - user
     properties:
       user:
+        type: object
+        properties:
+          id:
+            type: integer
+          firstname:
+            type: string
+          lastname:
+            type: string
+          email:
+            type: string
+          birthdate:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          phone:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  GetArticleResponse:
+    required:
+      - article
+    properties:
+      article:
         type: object
         properties:
           id:

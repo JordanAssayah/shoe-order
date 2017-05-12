@@ -5,7 +5,7 @@ import * as types from '../mutations-types'
 const state = {
   newModelSpec: {
     colors: [''],
-    sizes : [''],
+    sizes : ['20'],
     parts : [''],
     name  : '',
     price : undefined
@@ -25,6 +25,9 @@ const actions = {
   addNewColorInput ({ commit }) {
     commit(types.ADD_NEW_COLOR_INPUT)
   },
+  addNewSizeInput ({ commit }) {
+    commit(types.ADD_NEW_SIZE_INPUT)
+  },
   updateNewModelPrice ({ commit }, newPrice) {
     commit(types.UPDATE_NEW_MODEL_PRICE, newPrice)
   },
@@ -37,11 +40,17 @@ const actions = {
   updateNewModelColors ({ commit }, colorToUpdate) {
     commit(types.UPDATE_NEW_MODEL_COLORS, colorToUpdate)
   },
+  updateNewModelSizes ({ commit }, sizeToUpdate) {
+    commit(types.UPDATE_NEW_MODEL_SIZES, sizeToUpdate)
+  },
   removePart ({ commit }, id) {
     commit(types.REMOVE_A_PART, id)
   },
   removeColor ({ commit }, id) {
     commit(types.REMOVE_A_COLOR, id)
+  },
+  removeSize ({ commit }, id) {
+    commit(types.REMOVE_A_SIZE, id)
   }
 }
 
@@ -68,6 +77,12 @@ const mutations = {
     state.newModelSpec.colors = colorsArray
   },
 
+  [types.UPDATE_NEW_MODEL_SIZES] (state, {id, size}) {
+    const sizesArray = state.newModelSpec.sizes
+    sizesArray[id] = size
+    state.newModelSpec.sizes = sizesArray
+  },
+
   [types.ADD_NEW_PART_INPUT] (state) {
     const partsArray = state.newModelSpec.parts
     partsArray.push('')
@@ -80,6 +95,12 @@ const mutations = {
     state.newModelSpec.colors = colorsArray
   },
 
+  [types.ADD_NEW_SIZE_INPUT] (state) {
+    const sizesArray = state.newModelSpec.sizes
+    sizesArray.push('20')
+    state.newModelSpec.sizes = sizesArray
+  },
+
   [types.REMOVE_A_PART] (state, id) {
     const partsArray = state.newModelSpec.parts
     partsArray.splice(id, 1)
@@ -90,6 +111,12 @@ const mutations = {
     const colorsArray = state.newModelSpec.colors
     colorsArray.splice(id, 1)
     state.newModelSpec.colors = colorsArray
+  },
+
+  [types.REMOVE_A_SIZE] (state, id) {
+    const sizesArray = state.newModelSpec.sizes
+    sizesArray.splice(id, 1)
+    state.newModelSpec.sizes = sizesArray
   }
 
 }

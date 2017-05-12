@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: ["jasmine"],
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: ['standard', 'plugin:jasmine/recommended'],
+  extends: ['plugin:jasmine/recommended'],
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions

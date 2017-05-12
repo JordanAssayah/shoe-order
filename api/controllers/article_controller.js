@@ -2,7 +2,7 @@
 
 var db = require('../../models')
 
-module.exports = { getAllArticles, createArticle }
+module.exports = { getAllArticles, getArticleById, createArticle, deleteArticleById }
 
 function getAllArticles (req, res) {
   db.Article.findAll()
@@ -11,6 +11,20 @@ function getAllArticles (req, res) {
     })
     .catch(function (error) {
       return res.json({ articles: [] })
+    })
+}
+
+function getArticleById (req, res) {
+  db.Article.findById(req.swagger.params.articleId.value)
+    .then(function (articleObject) {
+      if(!articleObject) {
+        throw new Error()
+      }
+
+      return res.json({ article: articleObject })
+    })
+    .catch(function (error) {
+      return res.status(404).json({ code: 404, message: `Oops! There is no article with the Id [${req.swagger.params.articleId.value}]` })
     })
 }
 
@@ -34,4 +48,25 @@ function createArticle (req, res) {
     })
 
   })
+}
+
+function deleteArticleById (req, res) {
+  const articleId = req.swagger.params.articleId.value
+  db.Article.destroy({ where: { id: articleId } })
+    .then(function (isArticleRemoved) {
+      if (!isArticleRemoved) {
+        throw new Error()
+      }
+
+      return res.json({
+        code    : 200,
+        message : `Article with the Id [${articleId}] was successfully deleted !`
+      })
+    })
+    .catch(function (error) {
+      return res.status(404).json({
+        code    : 404,
+        message : `Oops! There is no article with the id [${articleId}]`
+      })
+    })
 }
