@@ -377,7 +377,7 @@ paths:
             $ref: "#/definitions/PostArticleBadRquestError"
 
   /articles/{articleId}:
-    x-swagger-router-controller: user_controller
+    x-swagger-router-controller: article_controller
     get:
       tags: ["articles"]
       summary: Get an article by his ID

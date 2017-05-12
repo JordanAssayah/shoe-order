@@ -22,7 +22,7 @@ export const UPDATE_NEW_MODEL_COLORS = 'UPDATE_NEW_MODEL_COLORS'
 export const ADD_NEW_COLOR_INPUT     = 'ADD_NEW_COLOR_INPUT'
 export const REMOVE_A_COLOR          = 'REMOVE_A_COLOR'
 
-// for colors
+// for sizes
 export const UPDATE_NEW_MODEL_SIZES = 'UPDATE_NEW_MODEL_SIZES'
 export const ADD_NEW_SIZE_INPUT     = 'ADD_NEW_SIZE_INPUT'
 export const REMOVE_A_SIZE          = 'REMOVE_A_SIZE'
