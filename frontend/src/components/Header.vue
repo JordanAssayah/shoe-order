@@ -13,7 +13,7 @@
       </div>
       <div class="nav-center">
         <router-link to="/" class="nav-item is-active is-tab is-hidden-mobile force-white">Home</router-link>
-        <router-link to="/models" class="nav-item is-hidden-mobile force-white">Customize</router-link>
+        <router-link :to="{ name: 'ShoesList' }" class="nav-item is-hidden-mobile force-white">Customize</router-link>
         <router-link to="/shoes-manager" class="nav-item is-hidden-mobile force-white">About</router-link>
       </div>
       <div class="nav-right nav-menu">

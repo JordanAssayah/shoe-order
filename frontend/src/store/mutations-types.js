@@ -6,9 +6,9 @@ export const UPDATE_USERNAME          = 'UPDATE_USERNAME'
 export const UPDATE_LOGIN_STATUS      = 'UPDATE_LOGIN_STATUS'
 export const TOGGLE_HAMBURGER_MENU    = 'TOGGLE_HAMBURGER_MENU'
 
-/* ------------------------  /
-/  ----- MODEL TYPES  -----  /
-/  ------------------------ */
+/* ----------------------------  /
+/  ----- NEW MODEL TYPES  -----  /
+/  ---------------------------- */
 export const ADD_NEW_MODEL_IN_DB = 'ADD_NEW_MODEL_IN_DB'
 
 export const UPDATE_NEW_MODEL_PRICE        = 'UPDATE_NEW_MODEL_PRICE'
@@ -29,3 +29,9 @@ export const REMOVE_A_COLOR          = 'REMOVE_A_COLOR'
 export const UPDATE_NEW_MODEL_SIZES = 'UPDATE_NEW_MODEL_SIZES'
 export const ADD_NEW_SIZE_INPUT     = 'ADD_NEW_SIZE_INPUT'
 export const REMOVE_A_SIZE          = 'REMOVE_A_SIZE'
+
+/* ---------------------------  /
+/  ---- LIST MODEL TYPES  ----  /
+/  --------------------------- */
+export const UPDATE_LIST_OF_SHOES_MODELS     = 'UPDATE_LIST_OF_SHOES_MODELS'
+export const UPDATE_IS_LOADING_MODELS_STATUS = 'UPDATE_IS_LOADING_MODELS_STATUS'

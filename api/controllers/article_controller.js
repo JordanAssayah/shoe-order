@@ -7,10 +7,10 @@ module.exports = { getAllArticles, getArticleById, createArticle, deleteArticleB
 function getAllArticles (req, res) {
   db.Article.findAll()
     .then(function (arrayOfAllArticles){
-      return res.json({ articles: arrayOfAllArticles })
-    })
-    .catch(function (error) {
-      return res.json({ articles: [] })
+      return res.status(200).json({
+        code     : 200,
+        articles : arrayOfAllArticles
+      })
     })
 }
 
@@ -40,16 +40,6 @@ function createArticle (req, res) {
     sizes            : articleObject.sizes,
     colors           : articleObject.colors,
   }).then(function (article) {
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log(article.get({plain: true}))
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-    console.log('asdjhfvalsvflafadljsvfddhd');
-
     return res.status(201).json({
       code    : 201,
       article : article.get({plain: true})
