@@ -479,8 +479,11 @@ definitions:
 
   GetArticlesListResponse:
     required:
+      - code
       - articles
     properties:
+      code:
+        type: number
       articles:
         type: array
         items:
