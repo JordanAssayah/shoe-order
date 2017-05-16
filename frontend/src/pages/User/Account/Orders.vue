@@ -14,7 +14,7 @@
             </a>
           </header>
           <div class="card-content">
-            <table class="table">
+            <table class="table is-bordered">
               <thead>
                 <tr>
                   <th>Shoe model</th>
