@@ -190,7 +190,8 @@
             </div>
 
 
-            <button class="button is-fullwidth" style="margin-top: 25px">
+            <button class="button is-fullwidth" style="margin-top: 25px" @click="triggerFileUploadButton">
+              <input type="file" id="files-upload" multiple @change="(evt) => updateShoesImages(evt)" class="hidden">
               <span>Import pictures of the model</span>
               <span class="icon">
                 <i class="fa fa-plus"></i>
@@ -263,7 +264,7 @@
         </section>
         <footer class="modal-card-foot is-flex is-flex-pulled-right">
           <a class="button" @click="toggleModal">Cancel</a>
-          <a class="button is-success" @click="addNewModelSpecInDB">Save changes</a>
+          <a class="button is-success" @click="addInDBAndTGModal">Save changes</a>
         </footer>
       </div>
     </div>
@@ -299,6 +300,7 @@ export default {
       'updateNewModelParts',
       'updateNewModelColors',
       'updateNewModelSizes',
+      'updateShoesImages',
       'addNewPartInput',
       'removePart',
       'addNewColorInput',
@@ -318,6 +320,13 @@ export default {
     },
     toggleModal () {
       this.isModalOpen = this.isModalOpen !== true
+    },
+    triggerFileUploadButton () {
+      document.querySelector('#files-upload').click()
+    },
+    addInDBAndTGModal () {
+      this.toggleModal()
+      this.addNewModelSpecInDB()
     }
   }
 }
@@ -354,6 +363,9 @@ export default {
     max-width: 400px
     .tag:not(:first-child)
       margin-left: 5px
+
+  .hidden
+    display: none
 
   li:not(:first-child)
     margin-top: 15px
