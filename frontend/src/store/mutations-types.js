@@ -10,6 +10,8 @@ export const TOGGLE_HAMBURGER_MENU    = 'TOGGLE_HAMBURGER_MENU'
 /  ----- NEW MODEL TYPES  -----  /
 /  ---------------------------- */
 export const ADD_NEW_MODEL_IN_DB = 'ADD_NEW_MODEL_IN_DB'
+export const ADD_IMAGES_ERROR    = 'ADD_IMAGES_ERROR'
+export const UPDATE_SHOES_IMAGES = 'UPDATE_SHOES_IMAGES'
 
 export const UPDATE_NEW_MODEL_PRICE        = 'UPDATE_NEW_MODEL_PRICE'
 export const UPDATE_NEW_MODEL_NAME         = 'UPDATE_NEW_MODEL_NAME'

@@ -11,7 +11,9 @@ const state = {
     price      : undefined,
     description: ''
   },
-  addModelMessage: ''
+  addModelMessage: '',
+  error          : [],
+  shoesImages    : undefined
 }
 
 // getters
@@ -22,23 +24,40 @@ const getters = {
 // actions
 const actions = {
   addNewModelSpecInDB ({ commit, state }) {
-    const plainObject = { ...state.newModelSpec, administrator_id: 1 }
-    console.log(JSON.stringify(plainObject))
-    fetch('http://localhost:10010/api/v1/articles', {
-      method : 'POST',
-      headers: {
-        'Accept'      : 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(plainObject)
-    })
-    .then(success       => success.json())
-    .then(addArticleResponse => {
-      console.log(addArticleResponse)
-      if (addArticleResponse.code === 201) {
-        commit(types.ADD_NEW_MODEL_IN_DB)
+    if (state.shoesImages === undefined) {
+      commit(types.ADD_IMAGES_ERROR)
+    } else {
+      const plainObject = {
+        ...state.newModelSpec,
+        administrator_id: 1
       }
-    })
+
+      fetch('http://localhost:10010/api/v1/articles', {
+        method : 'POST',
+        headers: {
+          'Accept'      : 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plainObject)
+      })
+      .then(success       => success.json())
+      .then(addArticleResponse => {
+        if (addArticleResponse.code === 201) {
+          commit(types.ADD_NEW_MODEL_IN_DB)
+        }
+      })
+
+      fetch('http://localhost:10010/api/v1/shoes-images/upload', {
+        method: 'POST',
+        body  : state.shoesImages
+      })
+      .then(success       => success.json())
+      .then(addShoesImagesResponse => {
+        if (addShoesImagesResponse.code === 201) {
+          console.log(addShoesImagesResponse)
+        }
+      })
+    }
   },
   addNewPartInput ({ commit }) {
     commit(types.ADD_NEW_PART_INPUT)
@@ -75,6 +94,14 @@ const actions = {
   },
   removeSize ({ commit }, id) {
     commit(types.REMOVE_A_SIZE, id)
+  },
+  updateShoesImages ({ commit, state }, evt) {
+    let formData = new FormData()
+    formData.append('modelName', state.newModelSpec.name)
+    for (const file of evt.target.files) {
+      formData.append('images', file, file.name)
+    }
+    commit(types.UPDATE_SHOES_IMAGES, formData)
   }
 }
 
@@ -90,6 +117,9 @@ const mutations = {
       price      : undefined,
       description: ''
     }
+    state.addModelMessage = ''
+    state.error           = []
+    state.shoesImages     = undefined
   },
 
   [types.UPDATE_NEW_MODEL_PRICE] (state, newPrice) {
@@ -120,6 +150,10 @@ const mutations = {
     const sizesArray = state.newModelSpec.sizes
     sizesArray[id] = size
     state.newModelSpec.sizes = sizesArray
+  },
+
+  [types.UPDATE_SHOES_IMAGES] (state, imagesFormData) {
+    state.shoesImages = imagesFormData
   },
 
   [types.ADD_NEW_PART_INPUT] (state) {
@@ -156,6 +190,12 @@ const mutations = {
     const sizesArray = state.newModelSpec.sizes
     sizesArray.splice(id, 1)
     state.newModelSpec.sizes = sizesArray
+  },
+
+  [types.ADD_IMAGES_ERROR] (state) {
+    const error = state.error
+    error.push('You have to upload at least 3 shoes images')
+    state.error = error
   }
 
 }
