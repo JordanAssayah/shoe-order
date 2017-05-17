@@ -21,14 +21,17 @@ function getAllCustomers (req, res) {
     })
 }
 
-function getCustomerById(req, res) {
+function getCustomerById (req, res) {
   db.Customer.findById(req.swagger.params.customerId.value)
     .then(function (customerObject) {
       if(!customerObject) {
         throw new Error()
       }
 
-      return res.json({ customer: customerObject })
+      return res.status(200).json({
+        code     : 200,
+        customer : customerObject
+      })
     })
     .catch(function (error) {
       return res.status(404).json({
@@ -47,9 +50,7 @@ function createCustomer (req, res) {
     lastname  : params.lastname.value,
     email     : params.email.value,
     birthdate : params.birthdate.value,
-    country   : params.country.value,
-    state     : params.state.value,
-    phone     : params.phone.value
+    is_active : params.is_active.value,
   }).then(function (customer) {
     return res.status(201).json({
       code: 201,
