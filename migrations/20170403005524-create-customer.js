@@ -42,6 +42,11 @@ module.exports = {
               notEmpty: true,
           }
       },
+      current_address: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null
+      },
       is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

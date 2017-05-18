@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     lastname: DataTypes.STRING,
     email: DataTypes.STRING,
     birthdate: DataTypes.DATEONLY,
+    current_address: DataTypes.INTEGER,
     is_active: DataTypes.BOOLEAN
   }, {
     underscored: true,

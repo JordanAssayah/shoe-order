@@ -43,7 +43,8 @@ function getCustomerById (req, res) {
 
 function createCustomer (req, res) {
   const params = req.swagger.params
-  db.Customer.create({
+
+  let customerDataToCreate = {
     username  : params.username.value,
     password  : params.password.value,
     firstname : params.firstname.value,
@@ -51,7 +52,14 @@ function createCustomer (req, res) {
     email     : params.email.value,
     birthdate : params.birthdate.value,
     is_active : params.is_active.value,
-  }).then(function (customer) {
+  }
+
+  if (params.current_address.value !== undefined) {
+    customerDataToCreate.current_address = params.current_address.value
+  }
+
+  db.Customer.create(customerDataToCreate)
+  .then(function (customer) {
     return res.status(201).json({
       code: 201,
       customer: customer
@@ -75,7 +83,6 @@ function createCustomer (req, res) {
       messages : messages,
       fields   : fields
     })
-
   })
 }
 

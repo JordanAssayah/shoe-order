@@ -68,6 +68,12 @@ paths:
           in: formData
           required: true
           type: string
+          format: date
+        - name: current_address
+          description: Current address of the customer
+          in: formData
+          required: false
+          type: integer
         - name: is_active
           description: TRUE if customer is active, else FALSE
           in: formData
@@ -82,7 +88,6 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostCustomerBadRquestError"
-
   /customers/{customerId}:
     x-swagger-router-controller: customer_controller
     get:
@@ -144,6 +149,12 @@ paths:
           in: formData
           required: true
           type: string
+          format: date
+        - name: current_address
+          description: Current address of the customer
+          in: formData
+          required: false
+          type: integer
         - name: is_active
           description: TRUE if customer is active, else FALSE
           in: formData
@@ -198,6 +209,12 @@ paths:
           in: formData
           required: false
           type: string
+          format: date
+        - name: current_address
+          description: Current address of the customer
+          in: formData
+          required: false
+          type: integer
         - name: is_active
           description: TRUE if customer is active, else FALSE
           in: formData
@@ -323,7 +340,6 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/GetArticlesListResponse"
-
     post:
       tags: ["articles"]
       summary: Create a new article
@@ -344,7 +360,6 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostArticleBadRquestError"
-
   /articles/{articleId}:
     x-swagger-router-controller: article_controller
     get:
@@ -407,11 +422,6 @@ paths:
           in: formData
           required: true
           type: number
-        - name: customizations_of_order_id
-          description: The ID of the link between customizations and the order
-          in: formData
-          required: true
-          type: integer
         - name: is_active
           description: The status of the order
           in: formData
@@ -426,7 +436,6 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostOrderBadRequestError"
-
   /orders/{orderId}:
     x-swagger-router-controller: order_controller
     get:
@@ -448,7 +457,6 @@ paths:
           description: Not Found
           schema:
             $ref: "#/definitions/Error"
-
   /orders/{orderId}/status:
     x-swagger-router-controller: order_controller
     patch:
@@ -475,8 +483,130 @@ paths:
           description: Not Found
           schema:
             $ref: "#/definitions/EditStatusOfOrderByIdNotFound"
+
+  /customizations:
+    x-swagger-router-controller: customization_controller
+    get:
+      tags: ["customizations"]
+      summary: Returns all created customization with the basic informations
+      operationId: getAllCustomizations
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomizationsListResponse"
+    post:
+      tags: ["customizations"]
+      summary: Create a new customization
+      operationId: createCustomization
+      parameters:
+        - name: customization
+          description: The customization data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CustomizationObject'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostCustomizationResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostCustomizationBadRequestError"
+  /customizations/{customizationId}:
+    x-swagger-router-controller: customization_controller
+    get:
+      tags: ["customizations"]
+      summary: Get a customization by his ID
+      description: Returns a customization by his ID with all basic informations
+      operationId: getCustomizationById
+      parameters:
+        - name: customizationId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomizationResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags: ["customizations"]
+      summary: Modify a customization by his ID
+      description: Modify a customization by his ID and return the new object
+      operationId: partialOrCompleteEditOfCustomization
+      parameters:
+        - name: customizationId
+          description: The ID of the customization to modify
+          type: string
+          in: path
+          required: true
+        - name: customization
+          description: The customization data
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/CustomizationObject"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags: ["customizations"]
+      summary: Delete a specific customization with his Id
+      description: Will delete all informations about a specific customization
+      operationId: deleteCustomizationById
+      parameters:
+        - name: customizationId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
+
 # complex objects have schema definitions
 definitions:
+
+  CustomizationObject:
+    type: object
+    required:
+      - article_id
+      - customer_id
+      - customization
+    properties:
+      article_id:
+        type: integer
+        description: The ID of the article to customize
+      customer_id:
+        type: integer
+        description: The ID of the customer who will create the customization
+      customization:
+        type: object
+        properties:
+          parts:
+            type: array
+            items:
+              type: object
+          size:
+            type: string
 
   ArticleObject:
     type: object
@@ -567,6 +697,31 @@ definitions:
             updated_at:
               type: string
 
+  GetCustomizationsListResponse:
+    required:
+      - code
+      - customizations
+    properties:
+      code:
+        type: integer
+      customizations:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            article_id:
+              type: integer
+            customer_id:
+              type: integer
+            customization:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
   GetOrdersListResponse:
     required:
       - code
@@ -614,6 +769,9 @@ definitions:
               type: string
             birthdate:
               type: string
+              format: date
+            current_address:
+              type: integer
             is_active:
               type: boolean
             created_at:
@@ -642,6 +800,9 @@ definitions:
             type: string
           birthdate:
             type: string
+            format: date
+          current_address:
+            type: integer
           is_active:
             type: boolean
           created_at:
@@ -649,18 +810,45 @@ definitions:
           updated_at:
             type: string
 
+  GetCustomizationResponse:
+    required:
+      - code
+      - customization
+    properties:
+      code:
+        type: integer
+      customization:
+        type: object
+        properties:
+          id:
+            type: integer
+          article_id:
+            type: integer
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
+
   GetOrderResponse:
     required:
+      - code
       - order
     properties:
+      code:
+        type: integer
       order:
         type: object
         properties:
           id:
             type: integer
           customer_id:
-            type: integer
-          customizations_of_order_id:
             type: integer
           is_active:
             type: boolean
@@ -686,6 +874,7 @@ definitions:
             type: string
           birthdate:
             type: string
+            format: date
           country:
             type: string
           state:
@@ -696,6 +885,49 @@ definitions:
             type: string
           updated_at:
             type: string
+
+  PostCustomizationResponse:
+    required:
+      - code
+      - customization
+    properties:
+      code:
+        type: integer
+      customization:
+        type: object
+        properties:
+          article_id:
+            type: integer
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
+
+  PostCustomizationBadRequestError:
+    required:
+      - code
+      - type
+    type: object
+    properties:
+      code:
+        type: number
+      type:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      fields:
+        type: array
+        items:
+          type: string
 
   PostOrderResponse:
     required:
@@ -710,8 +942,6 @@ definitions:
           id:
             type: integer
           customer_id:
-            type: integer
-          customizations_of_order_id:
             type: integer
           is_active:
             type: boolean
@@ -759,12 +989,11 @@ definitions:
             type: string
           birthdate:
             type: string
-          country:
-            type: string
-          state:
-            type: string
-          phone:
-            type: string
+            format: date
+          current_address:
+            type: integer
+          is_active:
+            type: boolean
           created_at:
             type: string
           updated_at:
@@ -813,12 +1042,43 @@ definitions:
             type: string
           birthdate:
             type: string
+            format: date
+          current_address:
+            type: integer
           is_active:
             type: boolean
           created_at:
             type: string
           updated_at:
             type: string
+
+  EditCustomizationResponse:
+    required:
+      - code
+      - message
+      - customization
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      customization:
+        type: object
+        properties:
+          article_id:
+            type: integer
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
 
   EditStatusOfOrderResponse:
     required:
@@ -837,8 +1097,6 @@ definitions:
           id:
             type: integer
           customer_id:
-            type: integer
-          customizations_of_order_id:
             type: integer
           is_active:
             type: boolean
@@ -882,6 +1140,9 @@ definitions:
             type: string
           birthdate:
             type: string
+            format: date
+          current_address:
+            type: integer
           is_active:
             type: boolean
           created_at:

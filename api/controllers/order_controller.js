@@ -43,7 +43,6 @@ function createOrder (req, res) {
   const params = req.swagger.params
   db.Order.create({
     customer_id                : params.customer_id.value,
-    customizations_of_order_id : params.customizations_of_order_id.value,
     is_active                  : params.is_active.value
   }).then(function (order) {
     return res.status(201).json({

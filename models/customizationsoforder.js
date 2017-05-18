@@ -1,8 +1,9 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Order = sequelize.define('Order', {
-    customer_id: DataTypes.INTEGER,
-    is_active: DataTypes.BOOLEAN
+  var CustomizationsOfOrder = sequelize.define('CustomizationsOfOrder', {
+    order_id: DataTypes.INTEGER,
+    customization_id: DataTypes.INTEGER,
+    quantity: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {
@@ -11,5 +12,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Order;
+  return CustomizationsOfOrder;
 };
