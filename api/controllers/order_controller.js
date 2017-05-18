@@ -6,9 +6,7 @@ module.exports = {
   getAllOrders,
   getOrderById,
   createOrder,
-  fullEditOrder,
-  partialEditOrder,
-  removeOrder
+  editOrderStatus
 }
 
 function getAllOrders (req, res) {
@@ -44,13 +42,9 @@ function getOrderById (req, res) {
 function createOrder (req, res) {
   const params = req.swagger.params
   db.Order.create({
-    username  : params.username.value,
-    password  : params.password.value,
-    firstname : params.firstname.value,
-    lastname  : params.lastname.value,
-    email     : params.email.value,
-    birthdate : params.birthdate.value,
-    is_active : params.is_active.value,
+    customer_id                : params.customer_id.value,
+    customizations_of_order_id : params.customizations_of_order_id.value,
+    is_active                  : params.is_active.value
   }).then(function (order) {
     return res.status(201).json({
       code  : 201,
@@ -79,8 +73,8 @@ function createOrder (req, res) {
   })
 }
 
-function partialEditOrder (req, res) {
-  const orderId = req.swagger.params.orderId.value
+function editOrderStatus (req, res) {
+  const orderId    = req.swagger.params.orderId.value
   const params     = req.swagger.params
   let updatedOrder = { }
 
@@ -89,8 +83,6 @@ function partialEditOrder (req, res) {
       updatedOrder[param] = params[param].value
     }
   }
-
-  console.log(updatedOrder)
 
   db.Order.update(updatedOrder, {
     where: {

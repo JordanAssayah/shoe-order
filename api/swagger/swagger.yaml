@@ -403,37 +403,17 @@ paths:
       operationId: createOrder
       parameters:
         - name: customer_id
-          description: Can be anything you want
+          description: The ID of the customer who created the order
           in: formData
           required: true
-          type: string
-        - name: password
-          description: At least 8 chars
+          type: number
+        - name: customizations_of_order_id
+          description: The ID of the link between customizations and the order
           in: formData
           required: true
-          type: string
-        - name: firstname
-          description: Firstame of the new customer
-          in: formData
-          required: true
-          type: string
-        - name: lastname
-          description: Lastname of the new customer
-          in: formData
-          required: true
-          type: string
-        - name: email
-          description: Email of the new customer
-          in: formData
-          required: true
-          type: string
-        - name: birthdate
-          description: Birthdate of the new customer
-          in: formData
-          required: true
-          type: string
+          type: integer
         - name: is_active
-          description: TRUE if customer is active, else FALSE
+          description: The status of the order
           in: formData
           required: true
           type: boolean
@@ -445,50 +425,42 @@ paths:
         400:
           description: Bad Request
           schema:
-            $ref: "#/definitions/PostOrderBadRquestError"
+            $ref: "#/definitions/PostOrderBadRequestError"
 
   /orders/{orderId}:
     x-swagger-router-controller: order_controller
+    get:
+      tags: ["orders"]
+      summary: Get an order by his ID
+      description: Returns an order by his ID with all basic informations
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetOrderResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+  /orders/{orderId}/status:
+    x-swagger-router-controller: order_controller
     patch:
       tags: ["orders"]
-      summary: Modify some properties of an order
-      operationId: partialEditOrder
+      summary: Modify the status of an order
+      operationId: editOrderStatus
       parameters:
         - name: orderId
           description: Id of the order to update
           type: string
           in: path
           required: true
-        - name: username
-          description: Username of the order to update
-          in: formData
-          required: false
-          type: string
-        - name: password
-          description: Password of the order to update
-          in: formData
-          required: false
-          type: string
-        - name: firstname
-          description: Firstame of the order to update
-          in: formData
-          required: false
-          type: string
-        - name: lastname
-          description: Lastname of the order to update
-          in: formData
-          required: false
-          type: string
-        - name: email
-          description: Email of the order to update
-          in: formData
-          required: false
-          type: string
-        - name: birthdate
-          description: Birthdate of the order to update
-          in: formData
-          required: false
-          type: string
         - name: is_active
           description: TRUE if order is active, else FALSE
           in: formData
@@ -498,11 +470,11 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/PartialEditOrderResponse"
+            $ref: "#/definitions/EditStatusOfOrderResponse"
         404:
           description: Not Found
           schema:
-            $ref: "#/definitions/PartialEditOrderByIdNotFound"
+            $ref: "#/definitions/EditStatusOfOrderByIdNotFound"
 # complex objects have schema definitions
 definitions:
 
@@ -677,6 +649,26 @@ definitions:
           updated_at:
             type: string
 
+  GetOrderResponse:
+    required:
+      - order
+    properties:
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          customizations_of_order_id:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
   GetArticleResponse:
     required:
       - article
@@ -704,6 +696,48 @@ definitions:
             type: string
           updated_at:
             type: string
+
+  PostOrderResponse:
+    required:
+      - code
+      - order
+    properties:
+      code:
+        type: number
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          customizations_of_order_id:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  PostOrderBadRequestError:
+    required:
+      - code
+      - type
+    type: object
+    properties:
+      code:
+        type: number
+      type:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      fields:
+        type: array
+        items:
+          type: string
 
   PostCustomerResponse:
     required:
@@ -785,6 +819,44 @@ definitions:
             type: string
           updated_at:
             type: string
+
+  EditStatusOfOrderResponse:
+    required:
+      - code
+      - message
+      - order
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          customizations_of_order_id:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  EditStatusOfOrderByIdNotFound:
+    required:
+      - code
+      - message
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
 
   PartialEditCustomerResponse:
     required:
