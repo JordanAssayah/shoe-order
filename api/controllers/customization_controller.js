@@ -1,12 +1,13 @@
 'use strict'
 
 var db = require('../../models')
+var _  = require('lodash')
 
 module.exports = {
   getAllCustomizations,
   getCustomizationById,
   createCustomization,
-  partialOrCompleteEditOfCustomization,
+  fullEditOfCustomization,
   deleteCustomizationById
 }
 
@@ -74,41 +75,45 @@ function createCustomization (req, res) {
 
   })
 }
-// TODO: Implement the edit function
-function partialOrCompleteEditOfCustomization (req, res) {
-  const customizationId     = req.swagger.params.customizationId.value
-  const customizationObject = req.swagger.params.customization.value
-  let updatedCustomization  = { }
 
-  for (const param in params) {
-    if (param !== 'customizationId' && customizationObject[param].value !== undefined) {
-      updatedOrder[param] = params[param].value
-    }
-  }
+function fullEditOfCustomization (req, res) {
+  const customizationId    = req.swagger.params.customizationId.value
+  const requesteqObject    = req.swagger.params.customization.value
+  const newCustomization   = requesteqObject.customization
+  let updatedCustomization = { }
 
-  db.Customization.update(updatedCustomization, {
-    where: {
-      id: customizationId
-    }
-  }).then(function (arrayOfRows) {
-    db.Customization.findById(customizationId)
-      .then(function (customizationObject) {
-        if(!customizationObject) {
-          return res.status(404).json({
-            code    : 404,
-            message : `Oops! There is no customization with the id [${customizationId}]`
-          })
+  db.Customization.findById(customizationId)
+    .then(function (customizationObject) {
+      if(!customizationObject) {
+        return res.status(404).json({
+          code    : 404,
+          message : `Oops! There is no customization with the id [${customizationId}]`
+        })
+      }
+
+
+      _.mapKeys(customizationObject.get({ plain: true }), function(value, key) {
+        console.log(key);
+        if (key !== 'customization' && key !== 'created_at' && key !== 'updated_at') {
+          updatedCustomization[key] = value
         }
+        updatedCustomization.customization = newCustomization
+      })
 
-        return res.json({
+      db.Customization.update(updatedCustomization, {
+        where: {
+          id: customizationId
+        }
+      }).then(function (arrayOfRows) {
+        return res.status(200).json({
           code          : 200,
           message       : `The customization with the Id [${customizationId}] was successfully updated !`,
-          customization : customizationObject
+          customization : updatedCustomization
         })
+      }).catch(function (error) {
+        console.log(error)
       })
-  }).catch(function (error) {
-    console.log(error)
-  })
+    })
 }
 
 function deleteCustomizationById (req, res) {

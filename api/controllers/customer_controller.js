@@ -50,7 +50,7 @@ function createCustomer (req, res) {
     firstname : params.firstname.value,
     lastname  : params.lastname.value,
     email     : params.email.value,
-    birthdate : params.birthdate.value,
+    birthdate : new Date(params.birthdate.value),
     is_active : params.is_active.value,
   }
 
@@ -65,6 +65,8 @@ function createCustomer (req, res) {
       customer: customer
     })
   }).catch(function (error) {
+
+    console.log(error);
 
     let messages = [ ]
     let fields   = [ ]

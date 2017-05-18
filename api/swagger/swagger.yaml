@@ -540,7 +540,7 @@ paths:
       tags: ["customizations"]
       summary: Modify a customization by his ID
       description: Modify a customization by his ID and return the new object
-      operationId: partialOrCompleteEditOfCustomization
+      operationId: fullEditOfCustomization
       parameters:
         - name: customizationId
           description: The ID of the customization to modify
@@ -557,11 +557,11 @@ paths:
         200:
           description: Success
           schema:
-            $ref: "#/definitions/GeneralResponse"
+            $ref: "#/definitions/EditCustomizationResponse"
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: "#/definitions/Error"
     delete:
       tags: ["customizations"]
       summary: Delete a specific customization with his Id
@@ -716,7 +716,7 @@ definitions:
             customer_id:
               type: integer
             customization:
-              type: string
+              type: object
             created_at:
               type: string
             updated_at:
@@ -769,7 +769,6 @@ definitions:
               type: string
             birthdate:
               type: string
-              format: date
             current_address:
               type: integer
             is_active:
@@ -800,7 +799,6 @@ definitions:
             type: string
           birthdate:
             type: string
-            format: date
           current_address:
             type: integer
           is_active:
@@ -989,7 +987,6 @@ definitions:
             type: string
           birthdate:
             type: string
-            format: date
           current_address:
             type: integer
           is_active:

@@ -35,29 +35,30 @@ module.exports = {
           }
       },
       birthdate: {
-          type: Sequelize.DATEONLY,
+          type: Sequelize.STRING,
           allowNull: false,
           validate: {
-              isDate: true,
               notEmpty: true,
           }
       },
       current_address: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        defaultValue: null
+        defaultValue: 0
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       created_at: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.fn('now')
       },
       updated_at: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.fn('now')
       }
     });
   },

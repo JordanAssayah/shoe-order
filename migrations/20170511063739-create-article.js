@@ -35,12 +35,14 @@ module.exports = {
         type: Sequelize.JSON
       },
       created_at: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.fn('now')
       },
       updated_at: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
+        defaultValue: Sequelize.fn('now')
       }
     });
   },
