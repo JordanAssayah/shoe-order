@@ -124,7 +124,6 @@ function deleteCustomizationById (req, res) {
         throw new Error()
       }
 
-      const articleName = articleObject.name
       db.Customization.destroy({ where: { id: customizationId } })
         .then(function (isCustomizationRemoved) {
           if (!isCustomizationRemoved) {
