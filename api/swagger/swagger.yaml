@@ -22,22 +22,21 @@ paths:
   /swagger:
     x-swagger-pipe: swagger_raw
 
-  /users:
-    x-swagger-router-controller: user_controller
+  /customers:
+    x-swagger-router-controller: customer_controller
     get:
-      tags: ["users"]
-      summary: Returns all created users with the basic informations
-      operationId: getAll
+      tags: ["customers"]
+      summary: Returns all created customers with the basic informations
+      operationId: getAllCustomers
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetUsersListResponse"
-
+            $ref: "#/definitions/GetCustomersListResponse"
     post:
-      tags: ["users"]
-      summary: Create a new user
-      operationId: create
+      tags: ["customers"]
+      summary: Create a new customer
+      operationId: createCustomer
       parameters:
         - name: username
           description: Can be anything you want
@@ -50,59 +49,54 @@ paths:
           required: true
           type: string
         - name: firstname
-          description: Firstame of the new user
+          description: Firstame of the new customer
           in: formData
           required: true
           type: string
         - name: lastname
-          description: Lastname of the new user
+          description: Lastname of the new customer
           in: formData
           required: true
           type: string
         - name: email
-          description: Email of the new user
+          description: Email of the new customer
           in: formData
           required: true
           type: string
         - name: birthdate
-          description: Birthdate of the new user
+          description: Birthdate of the new customer
           in: formData
           required: true
           type: string
-        - name: country
-          description: Country of the new user
+          format: date
+        - name: current_address
+          description: Current address of the customer
+          in: formData
+          required: false
+          type: integer
+        - name: is_active
+          description: TRUE if customer is active, else FALSE
           in: formData
           required: true
-          type: string
-        - name: state
-          description: State of the new user
-          in: formData
-          required: true
-          type: string
-        - name: phone
-          description: Phone of the new user
-          in: formData
-          required: true
-          type: string
+          type: boolean
       responses:
         201:
           description: Created
           schema:
-            $ref: "#/definitions/PostUserResponse"
+            $ref: "#/definitions/PostCustomerResponse"
         400:
           description: Bad Request
           schema:
-            $ref: "#/definitions/PostUserBadRquestError"
-
-  /users/{userId}:
-    x-swagger-router-controller: user_controller
+            $ref: "#/definitions/PostCustomerBadRquestError"
+  /customers/{customerId}:
+    x-swagger-router-controller: customer_controller
     get:
-      tags: ["users"]
-      summary: Get a user by his ID
-      description: Returns a user by his ID with all basic informations
-      operationId: getUserById
+      tags: ["customers"]
+      summary: Get a customer by his ID
+      description: Returns a customer by his ID with all basic informations
+      operationId: getCustomerById
       parameters:
-        - name: userId
+        - name: customerId
           type: string
           in: path
           required: true
@@ -110,146 +104,138 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/GetUserResponse"
+            $ref: "#/definitions/GetCustomerResponse"
         404:
           description: Not Found
           schema:
             $ref: "#/definitions/Error"
     put:
-      tags: ["users"]
-      summary: Modify all properties of a user
-      operationId: fullEdit
+      tags: ["customers"]
+      summary: Modify all properties of a customer
+      operationId: fullEditCustomer
       parameters:
-        - name: userId
-          description: Id of the user to update
+        - name: customerId
+          description: Id of the customer to update
           type: string
           in: path
           required: true
         - name: username
-          description: Username of the user to update
+          description: Username of the customer to update
           in: formData
           required: true
           type: string
         - name: password
-          description: Password of the user to update
+          description: Password of the customer to update
           in: formData
           required: true
           type: string
         - name: firstname
-          description: Firstame of the user to update
+          description: Firstame of the customer to update
           in: formData
           required: true
           type: string
         - name: lastname
-          description: Lastname of the user to update
+          description: Lastname of the customer to update
           in: formData
           required: true
           type: string
         - name: email
-          description: Email of the user to update
+          description: Email of the customer to update
           in: formData
           required: true
           type: string
         - name: birthdate
-          description: Birthdate of the user to update
+          description: Birthdate of the customer to update
           in: formData
           required: true
           type: string
-        - name: country
-          description: Country of the user to update
+          format: date
+        - name: current_address
+          description: Current address of the customer
+          in: formData
+          required: false
+          type: integer
+        - name: is_active
+          description: TRUE if customer is active, else FALSE
           in: formData
           required: true
-          type: string
-        - name: state
-          description: State of the user to update
-          in: formData
-          required: true
-          type: string
-        - name: phone
-          description: Phone of the user to update
-          in: formData
-          required: true
-          type: string
+          type: boolean
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/FullEditUserResponse"
+            $ref: "#/definitions/FullEditCustomerResponse"
         404:
           description: Not Found
           schema:
-            $ref: "#/definitions/FullEditUserByIdNotFound"
+            $ref: "#/definitions/FullEditCustomerByIdNotFound"
     patch:
-      tags: ["users"]
-      summary: Modify some properties of a user
-      operationId: partialEdit
+      tags: ["customers"]
+      summary: Modify some properties of a customer
+      operationId: partialEditCustomer
       parameters:
-        - name: userId
-          description: Id of the user to update
+        - name: customerId
+          description: Id of the customer to update
           type: string
           in: path
           required: true
         - name: username
-          description: Username of the user to update
+          description: Username of the customer to update
           in: formData
           required: false
           type: string
         - name: password
-          description: Password of the user to update
+          description: Password of the customer to update
           in: formData
           required: false
           type: string
         - name: firstname
-          description: Firstame of the user to update
+          description: Firstame of the customer to update
           in: formData
           required: false
           type: string
         - name: lastname
-          description: Lastname of the user to update
+          description: Lastname of the customer to update
           in: formData
           required: false
           type: string
         - name: email
-          description: Email of the user to update
+          description: Email of the customer to update
           in: formData
           required: false
           type: string
         - name: birthdate
-          description: Birthdate of the user to update
+          description: Birthdate of the customer to update
           in: formData
           required: false
           type: string
-        - name: country
-          description: Country of the user to update
+          format: date
+        - name: current_address
+          description: Current address of the customer
           in: formData
           required: false
-          type: string
-        - name: state
-          description: State of the user to update
+          type: integer
+        - name: is_active
+          description: TRUE if customer is active, else FALSE
           in: formData
-          required: false
-          type: string
-        - name: phone
-          description: Phone of the user to update
-          in: formData
-          required: false
-          type: string
+          required: true
+          type: boolean
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/PartialEditUserResponse"
+            $ref: "#/definitions/PartialEditCustomerResponse"
         404:
           description: Not Found
           schema:
-            $ref: "#/definitions/PartialEditUserByIdNotFound"
+            $ref: "#/definitions/PartialEditCustomerByIdNotFound"
     delete:
-      tags: ["users"]
-      summary: Delete a specific user with his Id
-      description: Will delete all informations about a specific user
-      operationId: remove
+      tags: ["customers"]
+      summary: Delete a specific customer with his Id
+      description: Will delete all informations about a specific customer
+      operationId: removeCustomer
       parameters:
-        - name: userId
+        - name: customerId
           type: string
           in: path
           required: true
@@ -257,11 +243,11 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
         404:
           description: Not Found
           schema:
-            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
 
   /login:
     x-swagger-router-controller: login_controller
@@ -271,12 +257,12 @@ paths:
       operationId: login
       parameters:
         - name: username
-          description: the username of the user who want to be logged
+          description: the username of the customer who want to be logged
           in: formData
           required: true
           type: string
         - name: password
-          description: the password of the user who want to be logged
+          description: the password of the customer who want to be logged
           in: formData
           required: true
           type: string
@@ -354,7 +340,6 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/GetArticlesListResponse"
-
     post:
       tags: ["articles"]
       summary: Create a new article
@@ -375,7 +360,6 @@ paths:
           description: Bad Request
           schema:
             $ref: "#/definitions/PostArticleBadRquestError"
-
   /articles/{articleId}:
     x-swagger-router-controller: article_controller
     get:
@@ -411,15 +395,554 @@ paths:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
         404:
           description: Not Found
           schema:
-            $ref: "#/definitions/DeleteUserByIdSuccessOrError"
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
 
+  /orders:
+    x-swagger-router-controller: order_controller
+    get:
+      tags: ["orders"]
+      summary: Returns all created orders with the basic informations
+      operationId: getAllOrders
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetOrdersListResponse"
+    post:
+      tags: ["orders"]
+      summary: Create a new order
+      operationId: createOrder
+      parameters:
+        - name: customer_id
+          description: The ID of the customer who created the order
+          in: formData
+          required: true
+          type: number
+        - name: is_active
+          description: The status of the order
+          in: formData
+          required: true
+          type: boolean
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostOrderResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostOrderBadRequestError"
+  /orders/{orderId}:
+    x-swagger-router-controller: order_controller
+    get:
+      tags: ["orders"]
+      summary: Get an order by his ID
+      description: Returns an order by his ID with all basic informations
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetOrderResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  /orders/{orderId}/status:
+    x-swagger-router-controller: order_controller
+    patch:
+      tags: ["orders"]
+      summary: Modify the status of an order
+      operationId: editOrderStatus
+      parameters:
+        - name: orderId
+          description: Id of the order to update
+          type: string
+          in: path
+          required: true
+        - name: is_active
+          description: TRUE if order is active, else FALSE
+          in: formData
+          required: true
+          type: boolean
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/EditStatusOfOrderResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/EditStatusOfOrderByIdNotFound"
+
+  /customizations:
+    x-swagger-router-controller: customization_controller
+    get:
+      tags: ["customizations"]
+      summary: Returns all created customization with the basic informations
+      operationId: getAllCustomizations
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomizationsListResponse"
+    post:
+      tags: ["customizations"]
+      summary: Create a new customization
+      operationId: createCustomization
+      parameters:
+        - name: customization
+          description: The customization data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CustomizationObject'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostCustomizationResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostCustomizationBadRequestError"
+  /customizations/{customizationId}:
+    x-swagger-router-controller: customization_controller
+    get:
+      tags: ["customizations"]
+      summary: Get a customization by his ID
+      description: Returns a customization by his ID with all basic informations
+      operationId: getCustomizationById
+      parameters:
+        - name: customizationId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomizationResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags: ["customizations"]
+      summary: Modify a customization by his ID
+      description: Modify a customization by his ID and return the new object
+      operationId: fullEditOfCustomization
+      parameters:
+        - name: customizationId
+          description: The ID of the customization to modify
+          type: string
+          in: path
+          required: true
+        - name: customization
+          description: The customization data
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/CustomizationObject"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/EditCustomizationResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags: ["customizations"]
+      summary: Delete a specific customization with his Id
+      description: Will delete all informations about a specific customization
+      operationId: deleteCustomizationById
+      parameters:
+        - name: customizationId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
+
+  /addresses:
+    x-swagger-router-controller: address_controller
+    get:
+      tags: ["addresses"]
+      summary: Returns all created customers with the basic informations
+      operationId: getAllAddresses
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetAddressesListResponse"
+    post:
+      tags: ["addresses"]
+      summary: Create a new address
+      operationId: createAddress
+      parameters:
+        - name: customer_id
+          description: This is the ID of the customer who create the address
+          in: formData
+          required: true
+          type: string
+        - name: description
+          description: This is the name of the address
+          in: formData
+          required: true
+          type: string
+        - name: street
+          description: The street of the customer
+          in: formData
+          required: true
+          type: string
+        - name: country
+          description: This is the country of the address
+          in: formData
+          required: true
+          type: string
+        - name: state
+          description: This is the state of the address
+          in: formData
+          required: false
+          type: string
+        - name: city
+          description: This is the city of the address
+          in: formData
+          required: true
+          type: string
+        - name: zip_code
+          description: This is the zip code of the address
+          in: formData
+          required: true
+          type: string
+        - name: firstname
+          description: This is the firstname of the address
+          in: formData
+          required: true
+          type: string
+        - name: lastname
+          description: This is the lastname of the address
+          in: formData
+          required: true
+          type: string
+        - name: phone
+          description: This is the phone of the address
+          in: formData
+          required: true
+          type: string
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/PostAddressResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/PostCustomerBadRquestError"
+  /addresses/{addressId}:
+    x-swagger-router-controller: address_controller
+    get:
+      tags: ["addresses"]
+      summary: Get an address by his ID
+      description: Returns an address by his ID with all basic informations
+      operationId: getAddressById
+      parameters:
+        - name: addressId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetAddressResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      tags: ["addresses"]
+      summary: Modify some properties of an address
+      operationId: partialOrFullEditOfAddress
+      parameters:
+        - name: addressId
+          description: Id of the address to update
+          type: string
+          in: path
+          required: true
+        - name: description
+          description: This is the name of the address
+          in: formData
+          required: false
+          type: string
+        - name: street
+          description: The street of the customer
+          in: formData
+          required: false
+          type: string
+        - name: country
+          description: This is the country of the address
+          in: formData
+          required: false
+          type: string
+        - name: state
+          description: This is the state of the address
+          in: formData
+          required: false
+          type: string
+        - name: city
+          description: This is the city of the address
+          in: formData
+          required: false
+          type: string
+        - name: zip_code
+          description: This is the zip code of the address
+          in: formData
+          required: false
+          type: string
+        - name: firstname
+          description: This is the firstname of the address
+          in: formData
+          required: false
+          type: string
+        - name: lastname
+          description: This is the lastname of the address
+          in: formData
+          required: false
+          type: string
+        - name: phone
+          description: This is the phone of the address
+          in: formData
+          required: false
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PartialOrFullEditAddressResponse"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/PartialEditCustomerByIdNotFound"
+    delete:
+      tags: ["addresses"]
+      summary: Delete a specific address with his Id
+      description: Will delete all informations about a specific address
+      operationId: deleteAddressById
+      parameters:
+        - name: addressId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
+        404:
+          description: Not Found
+          schema:
+            $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
 
 # complex objects have schema definitions
 definitions:
+
+  PartialOrFullEditAddressResponse:
+    required:
+      - code
+      - message
+      - address
+    type: object
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+      address:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          description:
+            type: string
+          street:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+          zip_code:
+            type: string
+          firstname:
+            type: string
+          lastname:
+            type: string
+          phone:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  PostAddressResponse:
+    required:
+      - code
+      - address
+    type: object
+    properties:
+      code:
+        type: number
+      address:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          description:
+            type: string
+          street:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+          zip_code:
+            type: string
+          firstname:
+            type: string
+          lastname:
+            type: string
+          phone:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  GetAddressesListResponse:
+    required:
+      - code
+      - addresses
+    properties:
+      code:
+        type: number
+      addresses:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            customer_id:
+              type: integer
+            description:
+              type: string
+            street:
+              type: string
+            country:
+              type: string
+            state:
+              type: string
+            city:
+              type: string
+            zip_code:
+              type: string
+            firstname:
+              type: string
+            lastname:
+              type: string
+            phone:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
+  GetAddressResponse:
+    required:
+      - code
+      - address
+    type: object
+    properties:
+      code:
+        type: number
+      address:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          description:
+            type: string
+          street:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          city:
+            type: string
+          zip_code:
+            type: string
+          firstname:
+            type: string
+          lastname:
+            type: string
+          phone:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  CustomizationObject:
+    type: object
+    required:
+      - article_id
+      - customer_id
+      - customization
+    properties:
+      article_id:
+        type: integer
+        description: The ID of the article to customize
+      customer_id:
+        type: integer
+        description: The ID of the customer who will create the customization
+      customization:
+        type: object
+        properties:
+          parts:
+            type: array
+            items:
+              type: object
+          size:
+            type: string
 
   ArticleObject:
     type: object
@@ -510,37 +1033,96 @@ definitions:
             updated_at:
               type: string
 
-  GetUsersListResponse:
+  GetCustomizationsListResponse:
     required:
-      - users
+      - code
+      - customizations
     properties:
-      users:
+      code:
+        type: integer
+      customizations:
         type: array
         items:
           type: object
           properties:
             id:
               type: integer
-            administrator_id:
+            article_id:
               type: integer
-            name:
-              type: string
-            description:
-              type: string
-            price:
-              type: number
-            parts:
-              type: string
+            customer_id:
+              type: integer
+            customization:
+              type: object
             created_at:
               type: string
             updated_at:
               type: string
 
-  GetUserResponse:
+  GetOrdersListResponse:
     required:
-      - user
+      - code
+      - orders
     properties:
-      user:
+      code:
+        type: integer
+      orders:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            customer_id:
+              type: integer
+            customizations_of_order_id:
+              type: integer
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
+  GetCustomersListResponse:
+    required:
+      - code
+      - customers
+    properties:
+      code:
+        type: number
+      customers:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            firstname:
+              type: string
+            lastname:
+              type: string
+            email:
+              type: string
+            birthdate:
+              type: string
+            current_address:
+              type: integer
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
+  GetCustomerResponse:
+    required:
+      - code
+      - customer
+    type: object
+    properties:
+      code:
+        type: number
+      customer:
         type: object
         properties:
           id:
@@ -553,12 +1135,57 @@ definitions:
             type: string
           birthdate:
             type: string
-          country:
+          current_address:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
             type: string
-          state:
+          updated_at:
             type: string
-          phone:
-            type: string
+
+  GetCustomizationResponse:
+    required:
+      - code
+      - customization
+    properties:
+      code:
+        type: integer
+      customization:
+        type: object
+        properties:
+          id:
+            type: integer
+          article_id:
+            type: integer
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
+
+  GetOrderResponse:
+    required:
+      - code
+      - order
+    properties:
+      code:
+        type: integer
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          is_active:
+            type: boolean
           created_at:
             type: string
           updated_at:
@@ -581,6 +1208,7 @@ definitions:
             type: string
           birthdate:
             type: string
+            format: date
           country:
             type: string
           state:
@@ -592,38 +1220,31 @@ definitions:
           updated_at:
             type: string
 
-  PostUserResponse:
+  PostCustomizationResponse:
     required:
       - code
-      - user
+      - customization
     properties:
       code:
-        type: number
-      user:
+        type: integer
+      customization:
         type: object
         properties:
-          id:
+          article_id:
             type: integer
-          firstname:
-            type: string
-          lastname:
-            type: string
-          email:
-            type: string
-          birthdate:
-            type: string
-          country:
-            type: string
-          state:
-            type: string
-          phone:
-            type: string
-          created_at:
-            type: string
-          updated_at:
-            type: string
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
 
-  PostUserBadRquestError:
+  PostCustomizationBadRequestError:
     required:
       - code
       - type
@@ -642,18 +1263,54 @@ definitions:
         items:
           type: string
 
-  FullEditUserResponse:
+  PostOrderResponse:
     required:
       - code
-      - message
-      - user
+      - order
+    properties:
+      code:
+        type: number
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  PostOrderBadRequestError:
+    required:
+      - code
+      - type
     type: object
     properties:
       code:
         type: number
-      message:
+      type:
         type: string
-      user:
+      messages:
+        type: array
+        items:
+          type: string
+      fields:
+        type: array
+        items:
+          type: string
+
+  PostCustomerResponse:
+    required:
+      - code
+      - customer
+    properties:
+      code:
+        type: number
+      customer:
         type: object
         properties:
           id:
@@ -666,29 +1323,46 @@ definitions:
             type: string
           birthdate:
             type: string
-          country:
-            type: string
-          state:
-            type: string
-          phone:
-            type: string
+          current_address:
+            type: integer
+          is_active:
+            type: boolean
           created_at:
             type: string
           updated_at:
             type: string
 
-  PartialEditUserResponse:
+  PostCustomerBadRquestError:
+    required:
+      - code
+      - type
+    type: object
+    properties:
+      code:
+        type: number
+      type:
+        type: string
+      messages:
+        type: array
+        items:
+          type: string
+      fields:
+        type: array
+        items:
+          type: string
+
+  FullEditCustomerResponse:
     required:
       - code
       - message
-      - user
+      - customer
     type: object
     properties:
       code:
         type: number
       message:
         type: string
-      user:
+      customer:
         type: object
         properties:
           id:
@@ -701,18 +1375,115 @@ definitions:
             type: string
           birthdate:
             type: string
-          country:
-            type: string
-          state:
-            type: string
-          phone:
-            type: string
+            format: date
+          current_address:
+            type: integer
+          is_active:
+            type: boolean
           created_at:
             type: string
           updated_at:
             type: string
 
-  FullEditUserByIdNotFound:
+  EditCustomizationResponse:
+    required:
+      - code
+      - message
+      - customization
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      customization:
+        type: object
+        properties:
+          article_id:
+            type: integer
+          customer_id:
+            type: integer
+          customization:
+            type: object
+            properties:
+              parts:
+                type: array
+                items:
+                  type: object
+              size:
+                type: string
+
+  EditStatusOfOrderResponse:
+    required:
+      - code
+      - message
+      - order
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      order:
+        type: object
+        properties:
+          id:
+            type: integer
+          customer_id:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  EditStatusOfOrderByIdNotFound:
+    required:
+      - code
+      - message
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+
+  PartialEditCustomerResponse:
+    required:
+      - code
+      - message
+      - customer
+    type: object
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+      customer:
+        type: object
+        properties:
+          id:
+            type: integer
+          firstname:
+            type: string
+          lastname:
+            type: string
+          email:
+            type: string
+          birthdate:
+            type: string
+            format: date
+          current_address:
+            type: integer
+          is_active:
+            type: boolean
+          created_at:
+            type: string
+          updated_at:
+            type: string
+
+  FullEditCustomerByIdNotFound:
     required:
       - code
       - message
@@ -723,7 +1494,7 @@ definitions:
       message:
         type: string
 
-  PartialEditUserByIdNotFound:
+  PartialEditCustomerByIdNotFound:
     required:
       - code
       - message
@@ -734,7 +1505,7 @@ definitions:
       message:
         type: string
 
-  DeleteUserByIdSuccessOrError:
+  DeleteCustomerByIdSuccessOrError:
     required:
       - code
       - message
