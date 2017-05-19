@@ -10,7 +10,12 @@
           </div>
           <div class="column is-8">
             <p class="control">
-              <input class="input" type="text" placeholder="Text input">
+              <input
+                class="input form-firstname"
+                type="text"
+                :placeholder="basicCustomerData.firstname"
+                @input="(evt) => updateCustomerFirstname(evt.target.value)"
+              />
             </p>
           </div>
 
@@ -21,7 +26,12 @@
           </div>
           <div class="column is-8">
             <p class="control">
-              <input class="input" type="text" placeholder="Text input">
+              <input
+                class="input form-lastname"
+                type="text"
+                :placeholder="basicCustomerData.lastname"
+                @input="(evt) => updateCustomerLastname(evt.target.value)"
+              />
             </p>
           </div>
 
@@ -31,31 +41,20 @@
             </div>
           </div>
           <div class="column is-8">
-            <p>xsdfgdsfg@test.com</p>
+            <p>{{ basicCustomerData.email }}</p>
           </div>
 
           <div class="column is-4">
             <div class="field-label is-normal is-pulled-left">
-              <label class="label">Phone</label>
+              <label class="label">Birthday</label>
             </div>
           </div>
           <div class="column is-8">
-            <p class="control">
-              <input class="input" type="text">
-            </p>
-          </div>
-
-          <div class="column is-4">
-            <div class="field-label is-normal is-pulled-left">
-              <label class="label">Birthdate</label>
-            </div>
-          </div>
-          <div class="column is-8">
-            <p>29 Août 1997</p>
+            <p>{{ basicCustomerData.birthday }}</p>
           </div>
 
           <div class="column is-10 is-offset-1">
-            <button type="button" class="button is-fullwidth" @click="saveModifications">
+            <button type="button" class="button is-fullwidth" @click="saveModifications(1)">
               Save modifications
             </button>
           </div>
@@ -66,12 +65,26 @@
 </template>
 
 <script>
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
+
 export default {
   name: 'CTSProfile',
-  methods: {
-    saveModifications () {
-      console.log('saveModifications')
-    }
+  computed: mapGetters([ 'basicCustomerData' ]),
+  methods: mapActions([
+    'getBasicCustomerData',
+    'clearCustomerData',
+    'updateCustomerFirstname',
+    'updateCustomerLastname',
+    'saveModifications'
+  ]),
+  created () {
+    this.getBasicCustomerData(1)
+  },
+  beforeDestroy () {
+    this.clearCustomerData()
   }
 }
 </script>

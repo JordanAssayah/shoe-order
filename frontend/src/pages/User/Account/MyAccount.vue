@@ -2,7 +2,7 @@
   <div id="user-account">
     <h1 class="title is-1 has-text-centered">My account</h1>
     <div class="is-flex" style="justify-content: center">
-      <div class="tabs is-toggle">
+      <div class="tabs is-toggle is-small">
         <ul>
           <li class="is-active">
             <router-link :to="{ name: 'Profile' }">Profile</router-link>

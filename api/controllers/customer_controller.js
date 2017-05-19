@@ -5,6 +5,7 @@ var db = require('../../models')
 module.exports = {
   getAllCustomers,
   getCustomerById,
+  getCustomerAddresses,
   createCustomer,
   fullEditCustomer,
   partialEditCustomer,
@@ -37,6 +38,18 @@ function getCustomerById (req, res) {
       return res.status(404).json({
         code    : 404,
         message : `Oops! There is no user with the Id [${req.swagger.params.customerId.value}]`
+      })
+    })
+}
+
+function getCustomerAddresses (req, res) {
+  const customerId = req.swagger.params.customerId.value
+
+  db.Address.findAll({ where: { customer_id: customerId } })
+    .then(function (arrayOfAllAddressesOfCustomer) {
+      return res.status(200).json({
+        code      : 200,
+        addresses : arrayOfAllAddressesOfCustomer
       })
     })
 }
