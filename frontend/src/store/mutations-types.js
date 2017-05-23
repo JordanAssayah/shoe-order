@@ -1,8 +1,18 @@
 export const UPDATE_LOGIN_MESSAGE     = 'UPDATE_LOGIN_MESSAGE'
 export const TOGGLE_BUTTON_STATUS     = 'TOGGLE_BUTTON_STATUS'
 export const TOGGLE_LOGIN_SIGNUP_MENU = 'TOGGLE_LOGIN_SIGNUP_MENU'
-export const UPDATE_PASSWORD          = 'UPDATE_PASSWORD'
-export const UPDATE_EMAIL             = 'UPDATE_EMAIL'
+/* ----------------------------  /
+/  ------ REGISTER TYPES ------  /
+/  ---------------------------- */
+export const CREATE_USER                  = 'CREATE_USER'
+export const UPDATE_PASSWORD              = 'UPDATE_PASSWORD'
+export const UPDATE_CONFIRMATION_PASSWORD = 'UPDATE_CONFIRMATION_PASSWORD'
+export const UPDATE_EMAIL                 = 'UPDATE_EMAIL'
+export const UPDATE_FIRSTNAME             = 'UPDATE_FIRSTNAME'
+export const UPDATE_LASTNAME              = 'UPDATE_LASTNAME'
+export const UPDATE_BIRTHDAY              = 'UPDATE_BIRTHDAY'
+export const UPDATE_IS_ADMIN              = 'UPDATE_IS_ADMIN'
+
 export const UPDATE_LOGIN_STATUS      = 'UPDATE_LOGIN_STATUS'
 export const TOGGLE_HAMBURGER_MENU    = 'TOGGLE_HAMBURGER_MENU'
 

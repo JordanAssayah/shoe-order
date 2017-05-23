@@ -37,6 +37,8 @@ paths:
       tags: ["customers"]
       summary: Create a new customer
       operationId: createCustomer
+      consumes:
+        - multipart/form-data
       parameters:
         - name: email
           description: Email of the new customer

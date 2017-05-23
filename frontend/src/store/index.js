@@ -6,6 +6,8 @@ import shoesList         from './modules/shoesList'
 import customerData      from './modules/UserAccount/basicCustomerData'
 import customerAddresses from './modules/UserAccount/customerAddresses'
 import customerOrders    from './modules/UserAccount/customerOrders'
+import register          from './modules/register'
+import me                from './modules/me' // current logged in user
 import header            from './modules/header'
 
 Vue.use(Vuex)
@@ -14,12 +16,14 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   modules: {
+    me,
     login,
     model,
     shoesList,
     customerData,
     customerAddresses,
     customerOrders,
+    register,
     header
   },
   strict: debug

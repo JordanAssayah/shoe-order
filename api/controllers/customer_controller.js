@@ -30,9 +30,22 @@ function getCustomerById (req, res) {
         throw new Error()
       }
 
+      // Because we don't want to sho the password in an HTTP request
+      const customerToShow = {
+        id              : customerObject.id,
+        firstname       : customerObject.firstname,
+        lastname        : customerObject.lastname,
+        email           : customerObject.email,
+        birthdate       : customerObject.birthdate,
+        current_address : customerObject.current_address,
+        is_active       : customerObject.is_active,
+        created_at      : customerObject.created_at,
+        updated_at      : customerObject.updated_at
+      }
+
       return res.status(200).json({
         code     : 200,
-        customer : customerObject
+        customer : customerToShow
       })
     })
     .catch(function (error) {

@@ -6,8 +6,6 @@
         <section class="modal-card-body">
           <div class="columns is-multiline">
 
-
-
             <div class="column is-half">
               <h3 class="title is-4">Already have an account ?</h3>
               <div class="field">
@@ -49,21 +47,16 @@
               </div>
             </div>
 
-
-
-
-
-
             <div class="column is-half">
               <h3 class="title is-4">Want to customize many ?</h3>
-              <button
-                class="button is-info"
-                @click="checkCredentials">
-                <span>Create an account !</span>
-                <span class="icon">
-                  <i class="fa fa-plus-square"></i>
-                </span>
-              </button>
+              <router-link :to="{ name: 'Register' }">
+                <button class="button is-info" @click="closeModal">
+                  <span>Create an account !</span>
+                  <span class="icon">
+                    <i class="fa fa-plus-square"></i>
+                  </span>
+                </button>
+              </router-link>
             </div>
           </div>
 
@@ -72,7 +65,6 @@
           <div class="is-flex" style="justify-content: flex-end">
             <a class="button" @click="toggleLoginSignupMenu">Cancel</a>
           </div>
-
         </footer>
       </div>
     </div>
@@ -92,12 +84,17 @@ export default {
     'isLoginButtonLoading',
     'isLoggedIn'
   ]),
-  methods: mapActions([
-    'updateEmail',
-    'updatePassword',
-    'checkCredentials',
-    'toggleLoginSignupMenu'
-  ]),
+  methods: {
+    ...mapActions([
+      'updateEmail',
+      'updatePassword',
+      'checkCredentials',
+      'toggleLoginSignupMenu'
+    ]),
+    closeModal () {
+      this.toggleLoginSignupMenu()
+    }
+  },
   watch: {
     isLoggedIn () {
       if (this.isLoggedIn === true) {
