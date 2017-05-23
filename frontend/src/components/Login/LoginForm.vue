@@ -68,8 +68,13 @@
           </div>
 
         </section>
+        <footer class="modal-card-foot">
+          <div class="is-flex" style="justify-content: flex-end">
+            <a class="button" @click="toggleLoginSignupMenu">Cancel</a>
+          </div>
+
+        </footer>
       </div>
-      <button class="modal-close" @click="toggleLoginSignupMenu"></button>
     </div>
   </div>
 </template>
@@ -103,5 +108,8 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="sass">
+.modal-card-body
+  border-top-left-radius: 5px
+  border-top-right-radius: 5px
 </style>
