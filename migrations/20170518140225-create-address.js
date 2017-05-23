@@ -24,8 +24,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       state: {
-        allowNull: true,
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: ''
       },
       city: {
         allowNull: false,

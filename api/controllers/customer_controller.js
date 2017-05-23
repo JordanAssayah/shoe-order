@@ -6,6 +6,7 @@ module.exports = {
   getAllCustomers,
   getCustomerById,
   getCustomerAddresses,
+  getCustomerOrders,
   createCustomer,
   fullEditCustomer,
   partialEditCustomer,
@@ -50,6 +51,17 @@ function getCustomerAddresses (req, res) {
       return res.status(200).json({
         code      : 200,
         addresses : arrayOfAllAddressesOfCustomer
+      })
+    })
+}
+
+function getCustomerOrders (req, res) {
+  const customerId = req.swagger.params.customerId.value
+  db.Order.findAll({ where: { customer_id: customerId } })
+    .then(function (arrayOfAllOrdersOfCustomer) {
+      return res.status(200).json({
+        code   : 200,
+        orders : arrayOfAllOrdersOfCustomer
       })
     })
 }

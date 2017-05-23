@@ -21,7 +21,8 @@ const getters = {
 
 // actions
 const actions = {
-  getBasicCustomerData ({ commit }, customerId) {
+  getBasicCustomerData ({ commit, rootState }) {
+    const customerId = rootState.route.params.customerId
     fetch(`http://localhost:10010/api/v1/customers/${customerId}`, { method: 'GET' })
       .then(success => success.json())
       .then(customerResponse => {
@@ -39,7 +40,8 @@ const actions = {
   updateCustomerLastname ({ commit }, lastname) {
     commit(types.UPDATE_CUSTOMER_LASTNAME, lastname)
   },
-  saveModifications ({ commit, state }, customerId) {
+  saveModifications ({ commit, state, rootState }) {
+    const customerId = rootState.route.params.customerId
     const newCustomerData = new FormData()
     _.mapKeys(state.basicCustomerData.formValues, (value, key) => {
       newCustomerData.append(key, value)

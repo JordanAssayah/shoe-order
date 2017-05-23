@@ -249,7 +249,22 @@ paths:
           description: OK
           schema:
             $ref: "#/definitions/GetCustomerAddressesListResponse"
-
+  /customers/{customerId}/orders:
+    x-swagger-router-controller: customer_controller
+    get:
+      tags: ["customers"]
+      summary: Returns all orders of a customer with customizations
+      operationId: getCustomerOrders
+      parameters:
+        - name: customerId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomerOrdersListResponse"
   /login:
     x-swagger-router-controller: login_controller
     post:
@@ -282,7 +297,7 @@ paths:
               - message
             properties:
               code:
-                type: number
+                type: integer
               loggedIn:
                 type: boolean
               message:
@@ -598,8 +613,10 @@ paths:
       tags: ["addresses"]
       summary: Create a new address
       operationId: createAddress
+      consumes:
+        - multipart/form-data
       parameters:
-        - name: customer_id
+        - name: customerId
           description: This is the ID of the customer who create the address
           in: formData
           required: true
@@ -766,6 +783,31 @@ paths:
 # complex objects have schema definitions
 definitions:
 
+  GetCustomerOrdersListResponse:
+    required:
+      - code
+      - orders
+    properties:
+      code:
+        type: integer
+      orders:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            customer_id:
+              type: integer
+            customizations_of_order_id:
+              type: integer
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
   GetCustomerAddressesListResponse:
     required:
       - code
@@ -890,7 +932,7 @@ definitions:
       - addresses
     properties:
       code:
-        type: string
+        type: integer
       addresses:
         type: array
         items:
@@ -930,7 +972,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       address:
         type: object
         properties:
@@ -1020,7 +1062,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       message:
         type: string
     required:
@@ -1034,7 +1076,7 @@ definitions:
       - message
     properties:
       code:
-        type: string
+        type: integer
       loggedIn:
         type: boolean
       message:
@@ -1046,7 +1088,7 @@ definitions:
       - articles
     properties:
       code:
-        type: string
+        type: integer
       articles:
         type: array
         items:
@@ -1079,7 +1121,7 @@ definitions:
       - customizations
     properties:
       code:
-        type: string
+        type: integer
       customizations:
         type: array
         items:
@@ -1104,7 +1146,7 @@ definitions:
       - orders
     properties:
       code:
-        type: string
+        type: integer
       orders:
         type: array
         items:
@@ -1129,7 +1171,7 @@ definitions:
       - customers
     properties:
       code:
-        type: string
+        type: integer
       customers:
         type: array
         items:
@@ -1161,7 +1203,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       customer:
         type: object
         properties:
@@ -1190,7 +1232,7 @@ definitions:
       - customization
     properties:
       code:
-        type: string
+        type: integer
       customization:
         type: object
         properties:
@@ -1216,7 +1258,7 @@ definitions:
       - order
     properties:
       code:
-        type: string
+        type: integer
       order:
         type: object
         properties:
@@ -1266,7 +1308,7 @@ definitions:
       - customization
     properties:
       code:
-        type: string
+        type: integer
       customization:
         type: object
         properties:
@@ -1291,7 +1333,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       type:
         type: string
       messages:
@@ -1309,7 +1351,7 @@ definitions:
       - order
     properties:
       code:
-        type: string
+        type: integer
       order:
         type: object
         properties:
@@ -1331,7 +1373,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       type:
         type: string
       messages:
@@ -1349,7 +1391,7 @@ definitions:
       - customer
     properties:
       code:
-        type: string
+        type: integer
       customer:
         type: object
         properties:
@@ -1379,7 +1421,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       type:
         type: string
       messages:
@@ -1399,7 +1441,7 @@ definitions:
     type: object
     properties:
       code:
-        type: string
+        type: integer
       message:
         type: string
       customer:
@@ -1529,7 +1571,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1540,7 +1582,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1551,7 +1593,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1561,7 +1603,7 @@ definitions:
       - administrator
     properties:
       code:
-        type: number
+        type: integer
       administrator:
         type: object
         properties:
@@ -1585,7 +1627,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       type:
         type: string
       messages:
@@ -1603,7 +1645,7 @@ definitions:
       - article
     properties:
       code:
-        type: number
+        type: integer
       article:
         type: object
         properties:
@@ -1641,6 +1683,6 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string

@@ -11,7 +11,7 @@
             </p>
             <a class="card-header-icon">
               <!-- @click="editAddress" -->
-              <button class="button is-small">EDIT</button>
+              <button class="button is-small" @click="showAddressFormAndEditAddress(index)">EDIT</button>
             </a>
             <a class="card-header-icon">
               <button class="delete" @click="deleteCustomerAddress(address.id)"></button>
@@ -22,13 +22,12 @@
               <div class="column is-2">
                 <p>default</p>
               </div>
-              <div class="column">
-                {{ address.firstname }}
-                {{ address.lastname }},
-                {{ address.street }},
-                {{ address.zip_code }}
-                {{ address.city }},
-                {{ address.phone }}
+              <div class="column is-8 has-text-centered">
+                <p>{{ address.firstname }} {{ address.lastname }},</p>
+                <p>{{ address.country }} <template v-if="address.state">{{ address.state }}</template>,</p>
+                <p>{{ address.street }},</p>
+                <p>{{ address.zip_code }} {{ address.city }},</p>
+                <p>{{ address.phone }}</p>
               </div>
             </div>
           </div>
@@ -37,7 +36,7 @@
 
       </div>
       <div class="column is-6 is-offset-3">
-        <button type="button" class="button is-primary" @click="addAddress">Add an address</button>
+        <button type="button" class="button is-primary" @click="showAddressForm">Add an address</button>
       </div>
       <div class="column is-6 is-offset-3" v-if="isAddAddressShown">
         <div class="card">
@@ -47,16 +46,24 @@
                 <div class="field is-narrow">
                   <p class="control">
                     <input
-                      class="input form-firstname"
+                      class="input form-description"
                       type="text"
+                      required
+                      name="description"
                       placeholder="Description"
                       :value="newAddress.description"
-                      @input="(evt) => updateNewCustomerAddressDescription(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressDescription(evt.target.value)"
                     />
                   </p>
                 </div>
                 <div class="field">
-                  <button type="button" class="button is-danger is-pulled-right">Cancel</button>
+                  <button
+                    type="button"
+                    class="button is-danger is-pulled-right"
+                    @click="hideAddAddress"
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
@@ -70,9 +77,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="firstname"
                       placeholder="First name"
                       :value="newAddress.firstname"
-                      @input="(evt) => updateNewCustomerAddressFirstname(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressFirstname(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -81,9 +90,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="lastname"
                       placeholder="Last name"
                       :value="newAddress.lastname"
-                      @input="(evt) => updateNewCustomerAddressLastname(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressLastname(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -100,9 +111,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="country"
                       placeholder="Country"
                       :value="newAddress.country"
-                      @input="(evt) => updateNewCustomerAddressCountry(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressCountry(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -111,9 +124,10 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      name="state"
                       placeholder="State"
                       :value="newAddress.state"
-                      @input="(evt) => updateNewCustomerAddressState(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressState(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -129,9 +143,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="street"
                       placeholder="Street with number"
                       :value="newAddress.street"
-                      @input="(evt) => updateNewCustomerAddressStreet(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressStreet(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -140,9 +156,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="city"
                       placeholder="City"
                       :value="newAddress.city"
-                      @input="(evt) => updateNewCustomerAddressCity(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressCity(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -160,9 +178,11 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="zip_code"
                       placeholder="ZIP"
-                      :value="newAddress.zip"
-                      @input="(evt) => updateNewCustomerAddressZip(evt.target.value)"
+                      :value="newAddress.zip_code"
+                      @input="(evt) => updateCustomerAddressZip(evt.target.value)"
                     />
                   </p>
                 </div>
@@ -171,16 +191,19 @@
                     <input
                       class="input form-firstname"
                       type="text"
+                      required
+                      name="phone"
                       placeholder="Phone"
                       :value="newAddress.phone"
-                      @input="(evt) => updateNewCustomerAddressPhone(evt.target.value)"
+                      @input="(evt) => updateCustomerAddressPhone(evt.target.value)"
                     />
                   </p>
                 </div>
               </div>
             </div>
 
-            <button type="button" class="button is-success" @click="saveNewCustomerAddress(3)">Save the address</button>
+            <button type="button" class="button is-success" @click="saveNewCustomerAddress" v-if="!isAddressEdit">Save the address</button>
+            <button type="button" class="button is-success" @click="saveAddressChanges(makeChangesToAddressId)" v-if="isAddressEdit">Save changes</button>
             <label class="checkbox">
               <input type="checkbox">
               Define as default
@@ -208,30 +231,46 @@ export default {
   },
   computed: mapGetters([
     'addresses',
-    'newAddress'
+    'newAddress',
+    'isAddressEdit',
+    'makeChangesToAddressId'
   ]),
   methods: {
     ...mapActions([
       'getCustomerAddresses',
+      'editCustomerAddress',
       'deleteCustomerAddress',
-      'updateNewCustomerAddressDescription',
-      'updateNewCustomerAddressFirstname',
-      'updateNewCustomerAddressLastname',
-      'updateNewCustomerAddressCountry',
-      'updateNewCustomerAddressState',
-      'updateNewCustomerAddressStreet',
-      'updateNewCustomerAddressCity',
-      'updateNewCustomerAddressZip',
-      'updateNewCustomerAddressPhone',
-      'updateNewCustomerAddressIsDefault',
-      'saveNewCustomerAddress'
+      'updateCustomerAddressDescription',
+      'updateCustomerAddressFirstname',
+      'updateCustomerAddressLastname',
+      'updateCustomerAddressCountry',
+      'updateCustomerAddressState',
+      'updateCustomerAddressStreet',
+      'updateCustomerAddressCity',
+      'updateCustomerAddressZip',
+      'updateCustomerAddressPhone',
+      'updateCustomerAddressIsDefault',
+      'saveNewCustomerAddress',
+      'saveAddressChanges',
+      'clearAddress'
     ]),
-    addAddress () {
-      this.isAddAddressShown = this.isAddAddressShown === false
+    showAddressForm () {
+      this.isAddAddressShown = true
+      this.$nextTick(() => {
+        document.querySelector('.form-description').focus()
+      })
+    },
+    showAddressFormAndEditAddress (index) {
+      this.editCustomerAddress(index)
+      this.showAddressForm()
+    },
+    hideAddAddress () {
+      this.clearAddress()
+      this.isAddAddressShown = false
     }
   },
   mounted () {
-    this.getCustomerAddresses(3)
+    this.getCustomerAddresses()
   }
 }
 </script>

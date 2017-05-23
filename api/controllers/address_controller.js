@@ -43,10 +43,9 @@ function getAddressById (req, res) {
 
 function createAddress (req, res) {
   const params = req.swagger.params
-  console.log(params);
 
   let addressDataToCreate = {
-    customer_id : params.customer_id.value,
+    customer_id : params.customerId.value,
     description : params.description.value,
     street      : params.street.value,
     country     : params.country.value,

@@ -54,7 +54,7 @@
           </div>
 
           <div class="column is-10 is-offset-1">
-            <button type="button" class="button is-fullwidth" @click="saveModifications(1)">
+            <button type="button" class="button is-fullwidth" @click="saveModifications()">
               Save modifications
             </button>
           </div>
@@ -81,7 +81,7 @@ export default {
     'saveModifications'
   ]),
   created () {
-    this.getBasicCustomerData(1)
+    this.getBasicCustomerData()
   },
   beforeDestroy () {
     this.clearCustomerData()

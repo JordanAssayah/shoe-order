@@ -11,12 +11,11 @@ import Orders       from '@/pages/User/Account/Orders'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [
     { path: '/', name: 'Home', component: Home },
     { path: '/shoes-manager', name: 'ShoesManager', component: ShoesManager },
     { path: '/list-of-shoes', name: 'ShoesList', component: Articles },
-    { path: '/my-account',
+    { path: '/my-account/:customerId',
       name: 'MyAccount',
       component: MyAccount,
       children: [
