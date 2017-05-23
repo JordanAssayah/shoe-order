@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <CTSHeader />
+    <CTSLoginForm />
     <section class="section main-size">
       <div class="container">
         <router-view></router-view>
@@ -11,14 +12,16 @@
 </template>
 
 <script>
-import CTSHeader from '@/components/Header'
-import CTSFooter from '@/components/Footer'
+import CTSHeader    from '@/components/Header'
+import CTSFooter    from '@/components/Footer'
+import CTSLoginForm from '@/components/Login/LoginForm'
 
 export default {
   name: 'Custyshoes',
   components: {
     CTSHeader,
-    CTSFooter
+    CTSFooter,
+    CTSLoginForm
   }
 }
 </script>

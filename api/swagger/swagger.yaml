@@ -38,8 +38,8 @@ paths:
       summary: Create a new customer
       operationId: createCustomer
       parameters:
-        - name: username
-          description: Can be anything you want
+        - name: email
+          description: Email of the new customer
           in: formData
           required: true
           type: string
@@ -55,11 +55,6 @@ paths:
           type: string
         - name: lastname
           description: Lastname of the new customer
-          in: formData
-          required: true
-          type: string
-        - name: email
-          description: Email of the new customer
           in: formData
           required: true
           type: string
@@ -119,8 +114,8 @@ paths:
           type: string
           in: path
           required: true
-        - name: username
-          description: Username of the customer to update
+        - name: email
+          description: Email of the customer to update
           in: formData
           required: true
           type: string
@@ -136,11 +131,6 @@ paths:
           type: string
         - name: lastname
           description: Lastname of the customer to update
-          in: formData
-          required: true
-          type: string
-        - name: email
-          description: Email of the customer to update
           in: formData
           required: true
           type: string
@@ -179,8 +169,8 @@ paths:
           type: string
           in: path
           required: true
-        - name: username
-          description: Username of the customer to update
+        - name: email
+          description: Email of the customer to update
           in: formData
           required: false
           type: string
@@ -196,11 +186,6 @@ paths:
           type: string
         - name: lastname
           description: Lastname of the customer to update
-          in: formData
-          required: false
-          type: string
-        - name: email
-          description: Email of the customer to update
           in: formData
           required: false
           type: string
@@ -272,8 +257,8 @@ paths:
       summary: Return the loggedIn response
       operationId: login
       parameters:
-        - name: username
-          description: the username of the customer who want to be logged
+        - name: email
+          description: the email of the customer who want to be logged
           in: formData
           required: true
           type: string

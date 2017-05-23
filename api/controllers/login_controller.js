@@ -3,19 +3,19 @@
 var db     = require('../../models')
 var moment = require('moment')
 
-var errorMessage = 'Please check your username or your password !'
+var errorMessage = 'Please check your email or your password !'
 
 module.exports = { login }
 
 function login (req, res) {
-  var username = req.swagger.params.username.value
+  var email    = req.swagger.params.email.value
   var password = req.swagger.params.password.value
 
-  if (username === '' || password === '') {
+  if (email === '' || password === '') {
     return res.status(400).json({ code: 400, loggedIn: false, message: 'Please insert credentials !' })
   }
 
-  getUserByUsername(username).then(function (user) {
+  getUserByEmail(email).then(function (user) {
     if (user === null) {
       return res.status(400).json({ code: 400, loggedIn: false, message: errorMessage })
     }
@@ -35,7 +35,7 @@ function login (req, res) {
       res.header('Access-Control-Allow-Origin', req.headers.origin)
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
       res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,X-Requested-With')
-      res.cookie('username', username, { expires: new Date(date) })
+      res.cookie('email', email, { expires: new Date(date) })
 
       return res.json({
         code     : 200,
@@ -48,8 +48,8 @@ function login (req, res) {
   })
 }
 
-function getUserByUsername (username) {
-  return db.User.findOne({where: {username: username}})
+function getUserByEmail (email) {
+  return db.Customer.findOne({where: {email: email}})
     .then(function (userObject) {
       if (!userObject) {
         return userObject

@@ -58,11 +58,10 @@ function createCustomer (req, res) {
   const params = req.swagger.params
 
   let customerDataToCreate = {
-    username  : params.username.value,
+    email     : params.email.value,
     password  : params.password.value,
     firstname : params.firstname.value,
     lastname  : params.lastname.value,
-    email     : params.email.value,
     birthdate : new Date(params.birthdate.value),
     is_active : params.is_active.value,
   }
@@ -105,11 +104,10 @@ function fullEditCustomer(req, res) {
   const customerId = req.swagger.params.customerId.value
   const params     = req.swagger.params
   db.Customer.update({
-    username  : params.username.value,
+    email     : params.email.value,
     password  : params.password.value,
     firstname : params.firstname.value,
     lastname  : params.lastname.value,
-    email     : params.email.value,
     birthdate : params.birthdate.value,
   }, {
     where: {
