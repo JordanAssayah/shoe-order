@@ -1,4 +1,79 @@
-<template>  <div id="header">    <nav class="nav">      <div class="nav-left">        <a href="#" class="nav-item">          <h1 class="title">Custyshoes</h1>        </a>        <p class="nav-item">          <span class="icon force-white is-medium">            <i class="fa fa-angellist"></i>          </span>        </p>      </div>      <div class="nav-center">        <router-link to="/" class="nav-item is-active is-tab is-hidden-mobile force-white">Home</router-link>        <router-link :to="{ name: 'ShoesList' }" class="nav-item is-hidden-mobile force-white">Customize</router-link>        <router-link to="/shoes-manager" class="nav-item is-hidden-mobile force-white">About</router-link>      </div>      <div class="nav-right nav-menu">        <a href="#" class="nav-item force-white" @click="toggleLoginSignupMenu">Log in / Sign up</a>        <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Home</a>        <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Customize</a>        <router-link :to="{ name: 'MyAccount', params: { customerId: 1 }}" class="nav-item is-hidden-desktop is-hidden-tablet ">About</router-link>        <a class="nav-item">          <span class="icon force-white">            <i class="fa fa-shopping-cart"></i>          </span>        </a>      </div>      <div class="nav-toggle" @click="toggleMenu">        <span></span>        <span></span>        <span></span>      </div>    </nav>  </div></template>
-<script>import {  mapGetters,  mapActions} from 'vuex'
-export default {  name: 'CTSHeader',  computed: mapGetters([    'isLoginSignupMenuOpen',    'isHamburegerMenuActive'  ]),  methods: {    toggleMenu () {      document.querySelector('.nav-toggle').classList.toggle('is-active')      document.querySelector('.nav-menu').classList.toggle('is-active')    },    ...mapActions([      'toggleLoginSignupMenu'    ])  }}</script>
-<!-- Add "scoped" attribute to limit CSS to this component only --><style lang="sass" scoped>.nav  background-color: #363636  .force-white    color: #fff  .nav-menu &is-active    .nav-item      color: #fff      background-color: #363636  .nav-item    .title      color: #fff</style>
+<template>
+  <div id="header">
+    <nav class="nav">
+      <div class="nav-left">
+        <a href="#" class="nav-item">
+          <h1 class="title">Custyshoes</h1>
+        </a>
+        <p class="nav-item">
+          <span class="icon force-white is-medium">
+            <i class="fa fa-angellist"></i>
+          </span>
+        </p>
+      </div>
+      <div class="nav-center">
+        <router-link to="/" class="nav-item is-active is-tab is-hidden-mobile force-white">Home</router-link>
+        <router-link :to="{ name: 'ShoesList' }" class="nav-item is-hidden-mobile force-white">Customize</router-link>
+        <router-link to="/shoes-manager" class="nav-item is-hidden-mobile force-white">About</router-link>
+      </div>
+      <div class="nav-right nav-menu">
+        <a href="#" class="nav-item force-white" @click="toggleLoginSignupMenu">Log in / Sign up</a>
+        <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Home</a>
+        <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Customize</a>
+        <router-link :to="{ name: 'MyAccount', params: { customerId: 1 }}" class="nav-item is-hidden-desktop is-hidden-tablet ">About</router-link>
+        <a class="nav-item">
+          <span class="icon force-white">
+            <i class="fa fa-shopping-cart"></i>
+          </span>
+        </a>
+      </div>
+      <div class="nav-toggle" @click="toggleMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<script>
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
+
+export default {
+  name: 'CTSHeader',
+  computed: mapGetters([
+    'isLoginSignupMenuOpen',
+    'isHamburegerMenuActive'
+  ]),
+  methods: {
+    toggleMenu () {
+      document.querySelector('.nav-toggle').classList.toggle('is-active')
+      document.querySelector('.nav-menu').classList.toggle('is-active')
+    },
+    ...mapActions([
+      'toggleLoginSignupMenu'
+    ])
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="sass" scoped>
+.nav
+  background-color: #363636
+
+  .force-white
+    color: #fff
+
+  .nav-menu &is-active
+    .nav-item
+      color: #fff
+      background-color: #363636
+
+  .nav-item
+    .title
+      color: #fff
+</style>
