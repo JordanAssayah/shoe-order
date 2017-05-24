@@ -78,3 +78,8 @@ export const CLEAR_ADDRESS             = 'CLEAR_ADDRESS'
 
 export const UPDATE_LIST_OF_CUSTOMER_ORDERS = 'UPDATE_LIST_OF_CUSTOMER_ORDERS'
 export const UPDATE_CUSTOMER_ORDER_STATUS   = 'UPDATE_CUSTOMER_ORDER_STATUS'
+
+/* -----------------------------  /
+/  ---- CUSTOMIZATION TYPES ----  /
+/  ----------------------------- */
+export const SELECT_PART = 'SELECT_PART'
