@@ -27,8 +27,15 @@ const getters = {
 
 // actions
 const actions = {
-  getArticleConfiguration ({ commit }) {
-    commit(types.UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION)
+  getArticleConfiguration ({ commit, rootState }) {
+    const articleId = rootState.route.params.articleId
+    fetch(`http://localhost:10010/api/v1/articles/${articleId}`)
+    .then(success => success.json())
+    .then(getArticleResponse => {
+      if (getArticleResponse.code === 200) {
+        commit(types.UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION, getArticleResponse.article)
+      }
+    })
   },
   selectPart ({ commit }, part) {
     commit(types.SELECT_PART, part)
@@ -40,8 +47,8 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION] (state) {
-
+  [types.UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION] (state, article) {
+    state.articleConfiguration = article
   },
 
   [types.SELECT_PART] (state, part) {

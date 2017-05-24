@@ -9,12 +9,18 @@
 
       <!-- PREVIEW OF CUSTOMIZATION -->
       <div class="column is-8">
-        <div class="card is-marginless preview">
-          <div class="card-image">
-            <figure class="image is-2by1">
-               <img src="http://bulma.io/images/placeholders/640x320.png" alt="Image">
-             </figure>
+        <div class="is-flex preview is-full-height" @mouseover="showControls" @mouseleave="hideControls">
+          <div class="prev is-full-height hidden" @click="goToPreviousImage">
+            <span class="icon is-large">
+              <i class="fa fa-angle-left"></i>
+            </span>
           </div>
+          <div class="next is-full-height hidden" @click="goToNextImage">
+            <span class="icon is-large">
+              <i class="fa fa-angle-right"></i>
+            </span>
+          </div>
+          <img src="../../assets/shoes.jpg" style="width: 600px; height: auto" alt="Image">
         </div>
       </div>
 
@@ -124,31 +130,69 @@ export default {
     ...mapGetters([
       'articleConfiguration',
       'partSelected'
-    ]),
-    vpWidth () {
-      return window.innerWidth
-    },
-    vpHeight () {
-      return window.innerHeight
-    }
+    ])
   },
   methods: {
     ...mapActions([
       'selectPart'
-    ])
-  },
-  watch: {
-
+    ]),
+    showControls () {
+      document.querySelector('.next').classList.remove('hidden')
+      document.querySelector('.prev').classList.remove('hidden')
+    },
+    hideControls () {
+      document.querySelector('.next').classList.add('hidden')
+      document.querySelector('.prev').classList.add('hidden')
+    },
+    goToNextImage () {
+      console.log('next')
+    },
+    goToPreviousImage () {
+      console.log('prev')
+    }
   }
 }
 </script>
 
 <style lang="sass">
+
+  .hidden
+    visibility: hidden
+
   .block
     overflow-y: scroll
     min-height: 360px
     max-height: 360px
 
+  .prev
+    position: absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    width: 60px
+    left: 0
+    z-index: 467
+    color: black
+
+  .next
+    position: absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    width: 60px
+    right: 0
+    z-index: 467
+    color: black
+
+  .preview
+    justify-content: center
+    align-items: center
+    position: relative
+
+  .is-full-height
+    height: 100%
 
   .color
     &:hover

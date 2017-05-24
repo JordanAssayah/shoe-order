@@ -82,4 +82,6 @@ export const UPDATE_CUSTOMER_ORDER_STATUS   = 'UPDATE_CUSTOMER_ORDER_STATUS'
 /* -----------------------------  /
 /  ---- CUSTOMIZATION TYPES ----  /
 /  ----------------------------- */
-export const SELECT_PART = 'SELECT_PART'
+export const SELECT_PART                                    = 'SELECT_PART'
+export const UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION = 'UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION'
+export const BUY_CUSTOMIZATION                              = 'BUY_CUSTOMIZATION'
