@@ -10,6 +10,7 @@ import Orders          from '@/pages/User/Account/Orders'
 import Register        from '@/pages/Auth/Register'
 import Customize       from '@/pages/Customize/Customize'
 import ManageShoesList from '@/pages/Admin/ShoesList.vue'
+import ManageUsers     from '@/pages/Admin/ManageUsers'
 
 Vue.use(Router)
 
@@ -21,6 +22,7 @@ const router = new Router({
     { path: '/register', name: 'Register', component: Register },
     { path: '/customize/:articleId', name: 'Customize', component: Customize },
     { path: '/manage-shoes-list', name: 'ManageShoesList', component: ManageShoesList },
+    { path: '/manage-users', name: 'ManageUsers', component: ManageUsers },
     { path: '/my-account/:customerId',
       name: 'MyAccount',
       component: MyAccount,
