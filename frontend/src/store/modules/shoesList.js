@@ -1,4 +1,5 @@
 import * as types from '../mutations-types'
+import router     from '@/router'
 
 // initial state
 /* eslint key-spacing: ["error", { "align": "colon" }] */
@@ -25,8 +26,11 @@ const actions = {
         }
       })
   },
+  clearStateForModels ({ commit }) {
+    commit(types.CLEAR_STATE_FOR_MODELS_LIST)
+  },
   customizeShoes ({ commit }, shoesId) {
-    // Something
+    commit(types.CUSTOMIZE_PAIR_OF_SHOES, shoesId)
   }
 }
 
@@ -39,6 +43,15 @@ const mutations = {
 
   [types.UPDATE_IS_LOADING_MODELS_STATUS] (state) {
     state.isLoadingModels = state.isLoadingModels !== true
+  },
+
+  [types.CLEAR_STATE_FOR_MODELS_LIST] (state) {
+    state.shoesModels     = [ ]
+    state.isLoadingModels = true
+  },
+
+  [types.CUSTOMIZE_PAIR_OF_SHOES] (state, shoesId) {
+    router.push({ name: 'Customize', params: { articleId: shoesId } })
   }
 
 }

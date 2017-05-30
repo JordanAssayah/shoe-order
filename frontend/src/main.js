@@ -7,7 +7,7 @@ import store    from './store'
 import router   from './router'
 import { sync } from 'vuex-router-sync'
 
-import 'unfetch/polyfill'
+import 'unfetch/polyfill' // Let developers use the "unfetch" library everywhere in the project
 
 Vue.use(Vuex)
 Vue.config.productionTip = false
@@ -15,6 +15,7 @@ Vue.config.productionTip = false
 sync(store, router)
 
 /* eslint-disable no-new */
+/* --- Init the app ---- */
 new Vue({
   el: '#app',
   store,

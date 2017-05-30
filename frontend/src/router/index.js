@@ -8,6 +8,7 @@ import BasicInfo    from '@/pages/User/Account/BasicInfo'
 import Addresses    from '@/pages/User/Account/Addresses'
 import Orders       from '@/pages/User/Account/Orders'
 import Register     from '@/pages/Auth/Register'
+import Customize    from '@/pages/Customize/Customize'
 
 Vue.use(Router)
 
@@ -17,6 +18,7 @@ export default new Router({
     { path: '/shoes-manager', name: 'ShoesManager', component: ShoesManager },
     { path: '/list-of-shoes', name: 'ShoesList', component: Articles },
     { path: '/register', name: 'Register', component: Register },
+    { path: '/customize/:articleId', name: 'Customize', component: Customize },
     { path: '/my-account/:customerId',
       name: 'MyAccount',
       component: MyAccount,

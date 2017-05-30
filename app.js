@@ -19,15 +19,13 @@ SwaggerExpress.create(config, function (err, swaggerExpress) {
   var port = process.env.PORT || 10010
   app.set('json spaces', 2)
 
-  app.use('/api/v1', express.static('./swaggerUI'))
+  app.use('/shoes', express.static('./shoes'))      // Let lambda user access to images
+  app.use('/api/v1', express.static('./swaggerUI')) // Let logged in users access to the api
   app.get('/api/v1', function (req, res) {
-    res.sendFile(__dirname + '/swaggerUI/')
+    res.sendFile(__dirname + '/swaggerUI/')         // Load the swaggerUI temlplate
   })
 
+  // See https://expressjs.com/en/advanced/best-practice-security.html
   app.use(helmet())
   app.listen(port)
-
-  if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/api/v1/hello?name=Scott')
-  }
 })

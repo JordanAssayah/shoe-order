@@ -7,6 +7,7 @@ import customerData      from './modules/UserAccount/basicCustomerData'
 import customerAddresses from './modules/UserAccount/customerAddresses'
 import customerOrders    from './modules/UserAccount/customerOrders'
 import register          from './modules/register'
+import customization     from './modules/customization'
 import me                from './modules/me' // current logged in user
 import header            from './modules/header'
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     customerData,
     customerAddresses,
     customerOrders,
+    customization,
     register,
     header
   },
