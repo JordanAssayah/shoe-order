@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div id="header">
     <nav class="nav">
       <div class="nav-left">
         <a href="#" class="nav-item">
@@ -20,8 +20,8 @@
         <a href="#" class="nav-item force-white" @click="toggleLoginSignupMenu">Log in / Sign up</a>
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Home</a>
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Customize</a>
-        <a href="/shoes-manager" class="nav-item is-hidden-desktop is-hidden-tablet ">About</a>
-        <a href="/basket" class="nav-item">
+        <router-link :to="{ name: 'MyAccount', params: { customerId: 1 }}" class="nav-item is-hidden-desktop is-hidden-tablet ">About</router-link>
+        <a class="nav-item">
           <span class="icon force-white">
             <i class="fa fa-shopping-cart"></i>
           </span>
@@ -37,22 +37,25 @@
 </template>
 
 <script>
+import {
+  mapGetters,
+  mapActions
+} from 'vuex'
+
 export default {
   name: 'CTSHeader',
-  data () {
-    return {
-      isOpen: false,
-      isLoginSignupMenuOpen: false
-    }
-  },
+  computed: mapGetters([
+    'isLoginSignupMenuOpen',
+    'isHamburegerMenuActive'
+  ]),
   methods: {
     toggleMenu () {
       document.querySelector('.nav-toggle').classList.toggle('is-active')
       document.querySelector('.nav-menu').classList.toggle('is-active')
     },
-    toggleLoginSignupMenu () {
-      this.isLoginSignupMenuOpen = this.isLoginSignupMenuOpen === true
-    }
+    ...mapActions([
+      'toggleLoginSignupMenu'
+    ])
   }
 }
 </script>
@@ -61,12 +64,15 @@ export default {
 <style lang="sass" scoped>
 .nav
   background-color: #363636
+
   .force-white
     color: #fff
+
   .nav-menu &is-active
     .nav-item
       color: #fff
       background-color: #363636
+
   .nav-item
     .title
       color: #fff

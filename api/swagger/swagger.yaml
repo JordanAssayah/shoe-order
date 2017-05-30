@@ -37,9 +37,11 @@ paths:
       tags: ["customers"]
       summary: Create a new customer
       operationId: createCustomer
+      consumes:
+        - multipart/form-data
       parameters:
-        - name: username
-          description: Can be anything you want
+        - name: email
+          description: Email of the new customer
           in: formData
           required: true
           type: string
@@ -55,11 +57,6 @@ paths:
           type: string
         - name: lastname
           description: Lastname of the new customer
-          in: formData
-          required: true
-          type: string
-        - name: email
-          description: Email of the new customer
           in: formData
           required: true
           type: string
@@ -119,8 +116,8 @@ paths:
           type: string
           in: path
           required: true
-        - name: username
-          description: Username of the customer to update
+        - name: email
+          description: Email of the customer to update
           in: formData
           required: true
           type: string
@@ -136,11 +133,6 @@ paths:
           type: string
         - name: lastname
           description: Lastname of the customer to update
-          in: formData
-          required: true
-          type: string
-        - name: email
-          description: Email of the customer to update
           in: formData
           required: true
           type: string
@@ -179,8 +171,8 @@ paths:
           type: string
           in: path
           required: true
-        - name: username
-          description: Username of the customer to update
+        - name: email
+          description: Email of the customer to update
           in: formData
           required: false
           type: string
@@ -199,11 +191,6 @@ paths:
           in: formData
           required: false
           type: string
-        - name: email
-          description: Email of the customer to update
-          in: formData
-          required: false
-          type: string
         - name: birthdate
           description: Birthdate of the customer to update
           in: formData
@@ -218,7 +205,7 @@ paths:
         - name: is_active
           description: TRUE if customer is active, else FALSE
           in: formData
-          required: true
+          required: false
           type: boolean
       responses:
         200:
@@ -248,7 +235,38 @@ paths:
           description: Not Found
           schema:
             $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
-
+  /customers/{customerId}/addresses:
+    x-swagger-router-controller: customer_controller
+    get:
+      tags: ["customers"]
+      summary: Returns all addresses of a customer
+      operationId: getCustomerAddresses
+      parameters:
+        - name: customerId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomerAddressesListResponse"
+  /customers/{customerId}/orders:
+    x-swagger-router-controller: customer_controller
+    get:
+      tags: ["customers"]
+      summary: Returns all orders of a customer with customizations
+      operationId: getCustomerOrders
+      parameters:
+        - name: customerId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetCustomerOrdersListResponse"
   /login:
     x-swagger-router-controller: login_controller
     post:
@@ -256,8 +274,8 @@ paths:
       summary: Return the loggedIn response
       operationId: login
       parameters:
-        - name: username
-          description: the username of the customer who want to be logged
+        - name: email
+          description: the email of the customer who want to be logged
           in: formData
           required: true
           type: string
@@ -281,7 +299,7 @@ paths:
               - message
             properties:
               code:
-                type: number
+                type: integer
               loggedIn:
                 type: boolean
               message:
@@ -421,7 +439,7 @@ paths:
           description: The ID of the customer who created the order
           in: formData
           required: true
-          type: number
+          type: integer
         - name: is_active
           description: The status of the order
           in: formData
@@ -597,12 +615,14 @@ paths:
       tags: ["addresses"]
       summary: Create a new address
       operationId: createAddress
+      consumes:
+        - multipart/form-data
       parameters:
-        - name: customer_id
+        - name: customerId
           description: This is the ID of the customer who create the address
           in: formData
           required: true
-          type: string
+          type: integer
         - name: description
           description: This is the name of the address
           in: formData
@@ -765,6 +785,70 @@ paths:
 # complex objects have schema definitions
 definitions:
 
+  GetCustomerOrdersListResponse:
+    required:
+      - code
+      - orders
+    properties:
+      code:
+        type: integer
+      orders:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            customer_id:
+              type: integer
+            customizations_of_order_id:
+              type: integer
+            is_active:
+              type: boolean
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
+  GetCustomerAddressesListResponse:
+    required:
+      - code
+      - addresses
+    properties:
+      code:
+        type: integer
+      addresses:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            customer_id:
+              type: integer
+            description:
+              type: string
+            street:
+              type: string
+            country:
+              type: string
+            state:
+              type: string
+            city:
+              type: string
+            zip_code:
+              type: string
+            firstname:
+              type: string
+            lastname:
+              type: string
+            phone:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+
   PartialOrFullEditAddressResponse:
     required:
       - code
@@ -773,7 +857,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
       address:
@@ -813,7 +897,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       address:
         type: object
         properties:
@@ -850,7 +934,7 @@ definitions:
       - addresses
     properties:
       code:
-        type: number
+        type: integer
       addresses:
         type: array
         items:
@@ -890,7 +974,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       address:
         type: object
         properties:
@@ -980,7 +1064,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
     required:
@@ -994,7 +1078,7 @@ definitions:
       - message
     properties:
       code:
-        type: number
+        type: integer
       loggedIn:
         type: boolean
       message:
@@ -1006,7 +1090,7 @@ definitions:
       - articles
     properties:
       code:
-        type: number
+        type: integer
       articles:
         type: array
         items:
@@ -1089,7 +1173,7 @@ definitions:
       - customers
     properties:
       code:
-        type: number
+        type: integer
       customers:
         type: array
         items:
@@ -1121,7 +1205,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       customer:
         type: object
         properties:
@@ -1251,7 +1335,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       type:
         type: string
       messages:
@@ -1269,7 +1353,7 @@ definitions:
       - order
     properties:
       code:
-        type: number
+        type: integer
       order:
         type: object
         properties:
@@ -1291,7 +1375,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       type:
         type: string
       messages:
@@ -1309,7 +1393,7 @@ definitions:
       - customer
     properties:
       code:
-        type: number
+        type: integer
       customer:
         type: object
         properties:
@@ -1339,7 +1423,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       type:
         type: string
       messages:
@@ -1359,7 +1443,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
       customer:
@@ -1473,7 +1557,6 @@ definitions:
             type: string
           birthdate:
             type: string
-            format: date
           current_address:
             type: integer
           is_active:
@@ -1490,7 +1573,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1501,7 +1584,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1512,7 +1595,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string
 
@@ -1522,7 +1605,7 @@ definitions:
       - administrator
     properties:
       code:
-        type: number
+        type: integer
       administrator:
         type: object
         properties:
@@ -1546,7 +1629,7 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       type:
         type: string
       messages:
@@ -1564,7 +1647,7 @@ definitions:
       - article
     properties:
       code:
-        type: number
+        type: integer
       article:
         type: object
         properties:
@@ -1602,6 +1685,6 @@ definitions:
     type: object
     properties:
       code:
-        type: number
+        type: integer
       message:
         type: string

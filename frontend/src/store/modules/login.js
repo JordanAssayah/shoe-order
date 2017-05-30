@@ -5,7 +5,7 @@ import * as types from '../mutations-types'
 // initial state
 const state = {
   credentials: {
-    username: '',
+    email   : '',
     password: ''
   },
   isLoading   : false,
@@ -22,8 +22,8 @@ const getters = {
 
 // actions
 const actions = {
-  updateUsername ({ commit }, username) {
-    commit(types.UPDATE_USERNAME, username)
+  updateEmail ({ commit }, email) {
+    commit(types.UPDATE_EMAIL, email)
   },
   updatePassword ({ commit }, password) {
     commit(types.UPDATE_PASSWORD, password)
@@ -36,7 +36,7 @@ const actions = {
       headers    : {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `username=${state.credentials.username}&password=${state.credentials.password}`
+      body: `email=${state.credentials.email}&password=${state.credentials.password}`
     })
     .then(success       => success.json())
     .then(loginResponse => {
@@ -51,8 +51,8 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.UPDATE_USERNAME] (state, username) {
-    state.credentials.username = username
+  [types.UPDATE_EMAIL] (state, email) {
+    state.credentials.email = email
   },
 
   [types.UPDATE_PASSWORD] (state, password) {

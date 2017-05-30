@@ -2,6 +2,7 @@
 
 var SwaggerExpress = require('swagger-express-mw')
 var express        = require('express')
+var helmet         = require('helmet')
 var app            = express()
 module.exports     = app // for testing
 
@@ -17,11 +18,13 @@ SwaggerExpress.create(config, function (err, swaggerExpress) {
 
   var port = process.env.PORT || 10010
   app.set('json spaces', 2)
+
   app.use('/api/v1', express.static('./swaggerUI'))
   app.get('/api/v1', function (req, res) {
     res.sendFile(__dirname + '/swaggerUI/')
   })
 
+  app.use(helmet())
   app.listen(port)
 
   if (swaggerExpress.runner.swagger.paths['/hello']) {

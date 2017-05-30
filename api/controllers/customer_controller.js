@@ -5,6 +5,8 @@ var db = require('../../models')
 module.exports = {
   getAllCustomers,
   getCustomerById,
+  getCustomerAddresses,
+  getCustomerOrders,
   createCustomer,
   fullEditCustomer,
   partialEditCustomer,
@@ -28,9 +30,22 @@ function getCustomerById (req, res) {
         throw new Error()
       }
 
+      // Because we don't want to sho the password in an HTTP request
+      const customerToShow = {
+        id              : customerObject.id,
+        firstname       : customerObject.firstname,
+        lastname        : customerObject.lastname,
+        email           : customerObject.email,
+        birthdate       : customerObject.birthdate,
+        current_address : customerObject.current_address,
+        is_active       : customerObject.is_active,
+        created_at      : customerObject.created_at,
+        updated_at      : customerObject.updated_at
+      }
+
       return res.status(200).json({
         code     : 200,
-        customer : customerObject
+        customer : customerToShow
       })
     })
     .catch(function (error) {
@@ -41,15 +56,37 @@ function getCustomerById (req, res) {
     })
 }
 
+function getCustomerAddresses (req, res) {
+  const customerId = req.swagger.params.customerId.value
+
+  db.Address.findAll({ where: { customer_id: customerId } })
+    .then(function (arrayOfAllAddressesOfCustomer) {
+      return res.status(200).json({
+        code      : 200,
+        addresses : arrayOfAllAddressesOfCustomer
+      })
+    })
+}
+
+function getCustomerOrders (req, res) {
+  const customerId = req.swagger.params.customerId.value
+  db.Order.findAll({ where: { customer_id: customerId } })
+    .then(function (arrayOfAllOrdersOfCustomer) {
+      return res.status(200).json({
+        code   : 200,
+        orders : arrayOfAllOrdersOfCustomer
+      })
+    })
+}
+
 function createCustomer (req, res) {
   const params = req.swagger.params
 
   let customerDataToCreate = {
-    username  : params.username.value,
+    email     : params.email.value,
     password  : params.password.value,
     firstname : params.firstname.value,
     lastname  : params.lastname.value,
-    email     : params.email.value,
     birthdate : new Date(params.birthdate.value),
     is_active : params.is_active.value,
   }
@@ -92,11 +129,10 @@ function fullEditCustomer(req, res) {
   const customerId = req.swagger.params.customerId.value
   const params     = req.swagger.params
   db.Customer.update({
-    username  : params.username.value,
+    email     : params.email.value,
     password  : params.password.value,
     firstname : params.firstname.value,
     lastname  : params.lastname.value,
-    email     : params.email.value,
     birthdate : params.birthdate.value,
   }, {
     where: {
