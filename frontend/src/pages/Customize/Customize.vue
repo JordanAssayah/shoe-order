@@ -20,7 +20,7 @@
               <i class="fa fa-angle-right"></i>
             </span>
           </div>
-          <img src="../../assets/shoes.jpg" style="width: 600px; height: auto" alt="Image">
+          <img :src="shoeImage" style="width: 600px; height: auto" alt="Image" v-if="shoeImage !== ' '">
         </div>
       </div>
 
@@ -47,27 +47,33 @@
 
             </nav>
             <div class="block">
-              <div class="card" v-for="n in 10" v-if="partSelected === undefined">
-                <a @click="selectPart(n)">
+              <div class="card" v-for="(part, index) in articleConfiguration.parts" v-if="partSelected === undefined">
+                <a @click="selectPart(part)">
                   <div class="card-image">
                     <figure class="image is-16by9">
-                      <img src="http://bulma.io/images/placeholders/640x360.png" alt="Image">
+                      <img :src="'http://localhost:10010/shoes/'+ articleConfiguration.name + '/part_' + part + '.png'" alt="Image">
                     </figure>
                   </div>
                   <footer class="card-footer">
                     <div class="card-footer-item">
-                      Part {{ n }}
+                      {{ part }}
                     </div>
                   </footer>
                 </a>
               </div>
               <div class="colors-container" v-if="partSelected !== undefined">
-                <template v-for="n in 9">
-                  <div class="color" style="margin: 40px">
-                    <a>
+                <template v-for="(color, index) in articleConfiguration.colors">
+                  <div
+                    class="color"
+                    :id="'color-' + index"
+                    style="margin: 35px"
+                    v-on:mouseover="changeColorBackground('color-' + String(index), color)"
+                    v-on:mouseleave="clearColorBackground('color-' + String(index))">
+
+                    <a @click="selectColor(color)">
                       <div class="color-block">
-                        <div class="square" style="width: 70px; height: 70px; display: inline-block" :style="{ 'background-color': '#' + String(n + 2) + String(n + 1) + String(n + 1)}"></div>
-                        <div style="margin-left: 20px;">#{{ n }}{{ n }}{{ n }}</div>
+                        <div class="square" :style="{ 'background-color': color }"></div>
+                        <div style="margin-left: 20px;">{{ color }}</div>
                       </div>
                     </a>
                   </div>
@@ -75,14 +81,6 @@
               </div>
             </div>
           </div>
-          <footer class="card-footer" v-if="partSelected !== undefined">
-            <button type="button" class="button is-danger card-footer-item not-rounded">
-              Holla
-            </button>
-            <button type="button" class="button is-success card-footer-item not-rounded">
-              Holla
-            </button>
-          </footer>
         </div>
       </div>
 
@@ -91,30 +89,41 @@
         <div class="level">
           <div class="level-left">
             <p class="control level-item">
-              <button type="button" class="button">
-                Buy
+              <button type="button" class="button" @click="toggleCustomizeConfirmationModal">
+                <span>Buy</span>
+                <span class="icon is-small">
+                  <i class="fa fa-shopping-bag"></i>
+                </span>
               </button>
             </p>
             <p class="control level-item">
-              <button type="button" class="button">
-                Add to my custoomizations
+              <button type="button" class="button is-white">
+                <span>Add to my customizations</span>
+                <span class="icon is-small">
+                  <i class="fa fa-plus-circle"></i>
+                </span>
               </button>
             </p>
             <label class="level-item">Shoe sizes</label>
             <div class="control level-item">
               <div class="select is-small">
-                <select>
-                  <option>20</option>
-                  <option>21</option>
-                  <option>22</option>
+                <select :value="customization.size" @input="(evt) => updateCustomizationSize(evt.target.value)">
+                  <template v-for="(size, index) in articleConfiguration.sizes">
+                    <option>{{ size }}</option>
+                  </template>
                 </select>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
+
+    <CTSCustomizeConfirmModal
+      :onExitModal="toggleCustomizeConfirmationModal"
+      :isActive="showConfirmation"
+      :actualCustomizationImgUrl="shoeImage" />
+
   </div>
 </template>
 
@@ -123,18 +132,29 @@ import {
   mapGetters,
   mapActions
 } from 'vuex'
+import CTSCustomizeConfirmModal from './CustomizeConfirmModal'
 
 export default {
   name: 'CTSCustomize',
+  components: {
+    CTSCustomizeConfirmModal
+  },
   computed: {
     ...mapGetters([
       'articleConfiguration',
-      'partSelected'
+      'partSelected',
+      'shoeImage',
+      'customization',
+      'showConfirmation'
     ])
   },
   methods: {
     ...mapActions([
-      'selectPart'
+      'toggleCustomizeConfirmationModal',
+      'selectPart',
+      'selectColor',
+      'getArticleConfiguration',
+      'updateCustomizationSize'
     ]),
     showControls () {
       document.querySelector('.next').classList.remove('hidden')
@@ -149,7 +169,30 @@ export default {
     },
     goToPreviousImage () {
       console.log('prev')
+    },
+    changeColorBackground (tagId, HEXcolor) {
+      document.querySelector('#' + tagId).style['background-color'] = this.hexToRgbA(HEXcolor)
+    },
+    clearColorBackground (tagId) {
+      document.querySelector('#' + tagId).style['background-color'] = 'transparent'
+    },
+    // See https://stackoverflow.com/a/21648508
+    hexToRgbA (hex) {
+      let c
+      if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+        c = hex.substring(1).split('')
+        if (c.length === 3) {
+          c = [c[0], c[0], c[1], c[1], c[2], c[2]]
+        }
+        c = '0x' + c.join('')
+
+        return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',0.4)'
+      }
+      throw new Error('Bad Hex')
     }
+  },
+  created () {
+    this.getArticleConfiguration()
   }
 }
 </script>
@@ -163,6 +206,8 @@ export default {
     overflow-y: scroll
     min-height: 360px
     max-height: 360px
+    .card-image
+      padding: 30px
 
   .prev
     position: absolute
@@ -197,6 +242,14 @@ export default {
   .color
     &:hover
       background-color: #e9e9e9
+      border-radius   : 40px
+
+  .square
+    border        : 3px solid rgba(0,0,0,0.3)
+    border-radius : 100%
+    width         : 70px
+    height        : 70px
+    display       : inline-block
 
   .color-block
     display: flex

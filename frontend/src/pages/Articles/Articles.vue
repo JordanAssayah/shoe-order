@@ -12,8 +12,8 @@
               </p>
             </header>
             <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="http://bulma.io/images/placeholders/1280x960.png" alt="Image">
+              <figure class="image is-16by9">
+                <img :src="'http://localhost:10010/shoes/' + shoesModel.name + '/model.png'" alt="Image">
               </figure>
             </div>
             <div class="card-content">
@@ -45,9 +45,12 @@ import {
 export default {
   name: 'CTSArtciles',
   computed: mapGetters([ 'shoesModels', 'isLoadingModels' ]),
-  methods: mapActions([ 'getAllShoesModels', 'customizeShoes' ]),
+  methods: mapActions([ 'getAllShoesModels', 'customizeShoes', 'clearStateForModels' ]),
   mounted () {
     this.getAllShoesModels()
+  },
+  destroyed () {
+    this.clearStateForModels()
   }
 }
 </script>

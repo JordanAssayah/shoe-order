@@ -47,6 +47,8 @@ export const REMOVE_A_SIZE          = 'REMOVE_A_SIZE'
 /  -------------------------- */
 export const UPDATE_LIST_OF_SHOES_MODELS     = 'UPDATE_LIST_OF_SHOES_MODELS'
 export const UPDATE_IS_LOADING_MODELS_STATUS = 'UPDATE_IS_LOADING_MODELS_STATUS'
+export const CLEAR_STATE_FOR_MODELS_LIST     = 'CLEAR_STATE_FOR_MODELS_LIST'
+export const CUSTOMIZE_PAIR_OF_SHOES         = 'CUSTOMIZE_PAIR_OF_SHOES'
 
 /* --------------------------  /
 /  ---- MY ACCOUNT TYPES ----  /
@@ -83,5 +85,9 @@ export const UPDATE_CUSTOMER_ORDER_STATUS   = 'UPDATE_CUSTOMER_ORDER_STATUS'
 /  ---- CUSTOMIZATION TYPES ----  /
 /  ----------------------------- */
 export const SELECT_PART                                    = 'SELECT_PART'
+export const SELECT_COLOR                                   = 'SELECT_COLOR'
+export const UPDATE_PREVIEW                                 = 'UPDATE_PREVIEW'
+export const UPDATE_CUSTOMIZATION_SIZE                      = 'UPDATE_CUSTOMIZATION_SIZE'
 export const UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION = 'UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION'
+export const UPDATE_IMAGES_FOR_THIS_MODEL                   = 'UPDATE_IMAGES_FOR_THIS_MODEL'
 export const BUY_CUSTOMIZATION                              = 'BUY_CUSTOMIZATION'

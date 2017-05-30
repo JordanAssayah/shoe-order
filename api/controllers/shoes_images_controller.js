@@ -26,6 +26,21 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
+// Will list all pictures for a specific model
+app.get('/shoes-images-list', function (req, res) {
+  try {
+    const listForSpecificModel = fs.readdirSync(path.resolve(__dirname, '../../shoes/', req.query.modelName))
+
+    res.json({
+      code         : 200,
+      'image-list' : listForSpecificModel
+    })
+  } catch (e) {
+    console.log(e);
+  }
+
+})
+
 app.get('/api/v1/shoes-images', function (req, res) {
   res.sendFile(path.resolve(__dirname,'../../shoes/',req.query.modelName + '/' + req.query.part + '.png'))
 })
