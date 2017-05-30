@@ -1,4 +1,4 @@
-import * as types from '../mutations-types'
+import * as types from '../../mutations-types'
 
 /* eslint key-spacing: ["error", { "align": "colon" }] */
 

@@ -14,7 +14,7 @@
           <div class="card-content">
             <a class="delete is-pulled-right is-large"></a>
             <div class="columns">
-              <div class="column is-5">
+              <div class="column is-8">
                 <h3 class="title is-3"><u>Basic with custom "My custom 5"</u></h3>
                 <table>
                   <tr>
@@ -54,6 +54,9 @@
           <p class="is-pulled-left">Total</p>
           <p class="is-pulled-right title is-2">200 CHF</p>
         </div>
+        <div class="is-flex checkout-button-container">
+          <button type="button" class="button is-danger is-large is-not-rounded">Check out</button>
+        </div>
       </div>
     </div>
   </div>
@@ -74,12 +77,17 @@ export default {
 
   ]),
   created () {
-    
+
   }
 }
 </script>
 
 <style lang="sass">
+  .checkout-button-container
+    justify-content: center
+    margin-top: 120px
+    .is-not-rounded
+      border-radius: 0
   .summary
     background-color: lightgrey
   .horizontal-separator
