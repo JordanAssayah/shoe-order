@@ -10,6 +10,7 @@ import register          from './modules/register'
 import customization     from './modules/customization'
 import me                from './modules/me' // current logged in user
 import header            from './modules/header'
+import adminShoesList    from './modules/adminShoesList'
 
 Vue.use(Vuex)
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     customerData,
     customerAddresses,
     customerOrders,
+    adminShoesList,
     customization,
     register,
     header
