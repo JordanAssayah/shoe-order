@@ -11,6 +11,7 @@ import Register        from '@/pages/Auth/Register'
 import Customize       from '@/pages/Customize/Customize'
 import ManageShoesList from '@/pages/Admin/ShoesList.vue'
 import ManageUsers     from '@/pages/Admin/ManageUsers'
+import Basket          from '@/pages/Checkout/Basket'
 
 Vue.use(Router)
 
@@ -23,6 +24,7 @@ const router = new Router({
     { path: '/customize/:articleId', name: 'Customize', component: Customize },
     { path: '/manage-shoes-list', name: 'ManageShoesList', component: ManageShoesList },
     { path: '/manage-users', name: 'ManageUsers', component: ManageUsers },
+    { path: '/basket', name: 'Basket', component: Basket },
     { path: '/my-account/:customerId',
       name: 'MyAccount',
       component: MyAccount,

@@ -21,11 +21,11 @@
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Home</a>
         <a href="#" class="nav-item is-hidden-desktop is-hidden-tablet ">Customize</a>
         <router-link :to="{ name: 'MyAccount', params: { customerId: 1 }}" class="nav-item is-hidden-desktop is-hidden-tablet ">About</router-link>
-        <a class="nav-item">
+        <router-link :to="{ name: 'Basket' }" class="nav-item">
           <span class="icon force-white">
             <i class="fa fa-shopping-cart"></i>
           </span>
-        </a>
+        </router-link>
       </div>
       <div class="nav-toggle" @click="toggleMenu">
         <span></span>
