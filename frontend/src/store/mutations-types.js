@@ -96,3 +96,10 @@ export const BUY_CUSTOMIZATION                              = 'BUY_CUSTOMIZATION
 /  ---- CUSTOMIZATION TYPES ----  /
 /  ----------------------------- */
 export const REMOVE_ARTICLE = 'REMOVE_ARTICLE'
+
+/* -----------------------------  /
+/  ---- MANAGE USERS TYPES  ----  /
+/  ----------------------------- */
+export const UPDATE_LIST_OF_CUSTOMERS           = 'UPDATE_LIST_OF_CUSTOMERS'
+export const UPDATE_IS_LOADING_CUSTOMERS_STATUS = 'UPDATE_IS_LOADING_CUSTOMERS_STATUS'
+export const TOGGLE_CUSTOMER_ACTIVATION         = 'TOGGLE_CUSTOMER_ACTIVATION'
