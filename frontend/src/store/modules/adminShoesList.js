@@ -1,5 +1,6 @@
 import * as types          from '../mutations-types'
 import * as shoesListStore from './shoesList'
+import router              from '../../router'
 
 /* eslint key-spacing: ["error", { "align": "colon" }] */
 
@@ -15,6 +16,9 @@ const getters = {
 
 // actions
 const actions = {
+  goToCreateModelPage ({ commit }) {
+    router.push({ name: 'ShoesManager' })
+  },
   removeArticle ({ commit }, articleId) {
     fetch(`http://localhost:10010/api/v1/articles/${articleId}`, {
       method: 'DELETE'
