@@ -91,3 +91,8 @@ export const UPDATE_CUSTOMIZATION_SIZE                      = 'UPDATE_CUSTOMIZAT
 export const UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION = 'UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION'
 export const UPDATE_IMAGES_FOR_THIS_MODEL                   = 'UPDATE_IMAGES_FOR_THIS_MODEL'
 export const BUY_CUSTOMIZATION                              = 'BUY_CUSTOMIZATION'
+
+/* -----------------------------  /
+/  ---- CUSTOMIZATION TYPES ----  /
+/  ----------------------------- */
+export const REMOVE_ARTICLE = 'REMOVE_ARTICLE'
