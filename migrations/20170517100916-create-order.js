@@ -17,7 +17,10 @@ module.exports = {
         },
       },
       is_active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        validate: {
+          notEmpty: true,
+        }
       },
       created_at: {
         type: Sequelize.DATE,

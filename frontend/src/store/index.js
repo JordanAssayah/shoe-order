@@ -13,6 +13,7 @@ import header            from './modules/header'
 import adminShoesList    from './modules/adminShoesList'
 import manageUsers       from './modules/manageUsers'
 import basket            from './modules/Checkout/basket'
+import checkout          from './modules/Checkout/checkout'
 
 Vue.use(Vuex)
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     basket,
     login,
     model,
+    checkout,
     shoesList,
     customerData,
     customerAddresses,

@@ -5,7 +5,21 @@
       <!-- column for explainations -->
       <div class="column is-12-tablet is-2-desktop">
         <div class="" style="height: 100%;">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ul</p>
+          <p>To correctly enter the fields, you have to match the exact hexadecimals colors with the name of the pictures of the shoes </p>
+          <p>This is the same for parts</p>
+          <p>Exemple</p>
+          <p>Image name: sole#123C9C_front#123C9C</p>
+          <p>In the inputs, you'll have to type for parts :</p>
+          <p>'sole' in lowercase because it's like that in the image name</p>
+          <p>And for the color: '#123C9C' and not '#123c9c' because it has to be like in the image name</p>
+          <p>You also have to create some necessar files:</p>
+          <p>
+            <ul>
+              <li>One called "model.png". This is the model to show in the list of shoes</li>
+              <li>The number of parts you have, the number you will have to specify a picture for each part like this "part_sole.png" or "part_front.png". This is the the pictures to click on to modify a part</li>
+            </ul>
+          </p>
+          <h4 class="title is-4">Please add a model name BEFORE adding some pictures</h4>
         </div>
       </div>
 
@@ -101,6 +115,20 @@
                 <a @click="addNewPartInput"><u>add a new part</u></a>
               </div>
             </fieldset>
+
+            <div class="base-url" style="margin-top: 20px" v-if="newModelImages !== undefined">
+              Base url to show when customizing a model:<br>
+              <template v-for="(pair, index) in newModelImages">
+                <label class="radio">
+                  <input
+                    type="radio"
+                    name="base_url"
+                    :value="pair.name"
+                    @change="(evt) => updateBaseUrl(evt.target.value)" />
+                  {{ pair.name }}
+                </label>
+              </template>
+            </div>
 
           </div>
           <div class="column is-full-tablet is-5-desktop">
@@ -289,7 +317,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      newModelSpec: 'getNewModelSpec'
+      newModelSpec: 'getNewModelSpec',
+      newModelImages: 'newModelImages'
     })
   },
   methods: {
@@ -307,7 +336,8 @@ export default {
       'removeColor',
       'addNewSizeInput',
       'removeSize',
-      'addNewModelSpecInDB'
+      'addNewModelSpecInDB',
+      'updateBaseUrl'
     ]),
     updateParts (id, nameOfPart) {
       this.updateNewModelParts({ id, nameOfPart })

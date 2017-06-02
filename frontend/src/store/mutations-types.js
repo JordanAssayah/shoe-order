@@ -1,6 +1,10 @@
 export const UPDATE_LOGIN_MESSAGE     = 'UPDATE_LOGIN_MESSAGE'
 export const TOGGLE_BUTTON_STATUS     = 'TOGGLE_BUTTON_STATUS'
 export const TOGGLE_LOGIN_SIGNUP_MENU = 'TOGGLE_LOGIN_SIGNUP_MENU'
+export const SET_ME = 'SET_ME'
+export const TOGGLE_USER_NAV_OPTIONS_MODAL = 'TOGGLE_USER_NAV_OPTIONS_MODAL'
+export const PUSH_NEW_MODEL_IMAGES = 'PUSH_NEW_MODEL_IMAGES'
+export const UPDATE_BASE_URL_IMAGE = 'UPDATE_BASE_URL_IMAGE'
 /* ----------------------------  /
 /  ------ REGISTER TYPES ------  /
 /  ---------------------------- */
@@ -91,6 +95,7 @@ export const UPDATE_CUSTOMIZATION_SIZE                      = 'UPDATE_CUSTOMIZAT
 export const UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION = 'UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION'
 export const UPDATE_IMAGES_FOR_THIS_MODEL                   = 'UPDATE_IMAGES_FOR_THIS_MODEL'
 export const BUY_CUSTOMIZATION                              = 'BUY_CUSTOMIZATION'
+export const ADD_CUSTOMIZATION_TO_BASKET                    = 'ADD_CUSTOMIZATION_TO_BASKET'
 
 /* -----------------------------  /
 /  ---- CUSTOMIZATION TYPES ----  /
@@ -109,3 +114,11 @@ export const TOGGLE_CUSTOMER_ACTIVATION         = 'TOGGLE_CUSTOMER_ACTIVATION'
 /  ----------------------------- */
 export const UPDATE_SHOPPING_CART    = 'UPDATE_SHOPPING_CART'
 export const UPDATE_ARTICLE_QUANTITY = 'UPDATE_ARTICLE_QUANTITY'
+
+/* -------------------------  /
+/  ---- CHECKOUT TYPES  ----  /
+/  ------------------------- */
+export const UPDATE_PAYMENT_METHOD              = 'UPDATE_PAYMENT_METHOD'
+export const UPDATE_CUSTOMER_ADDRESSES_CHECKOUT = 'UPDATE_CUSTOMER_ADDRESSES_CHECKOUT'
+export const UPDATE_CHECKOUT_ADDRESS            = 'UPDATE_CHECKOUT_ADDRESS'
+export const UPDATE_CHECKOUT_AGREEMENT          = 'UPDATE_CHECKOUT_AGREEMENT'

@@ -9,19 +9,33 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          len: [ 2, 60 ],
+        }
       },
       lastname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          len: [ 2, 60 ],
+        }
       },
       email: {
-        type: Sequelize.STRING
-      },
-      username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          isEmail: true,
+          len: [ 2, 120 ]
+        }
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          len: [ 2, 100 ],
+        }
       },
       created_at: {
         type: Sequelize.DATE,

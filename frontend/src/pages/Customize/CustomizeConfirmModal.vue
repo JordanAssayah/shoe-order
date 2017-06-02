@@ -11,7 +11,7 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <a class="button is-success">Add to basket</a>
+          <a class="button is-success" @click="onSuccess">Add to basket</a>
           <a class="button" @click="onExitModal">Cancel</a>
         </footer>
       </div>
@@ -25,7 +25,8 @@ export default {
   props: [
     'actualCustomizationImgUrl',
     'isActive',
-    'onExitModal'
+    'onExitModal',
+    'onSuccess'
   ]
 }
 </script>

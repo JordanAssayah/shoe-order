@@ -25,7 +25,9 @@ const actions = {
     })
       .then(success => success.json())
       .then(removeArticleResponse => {
+        console.log(removeArticleResponse)
         if (removeArticleResponse.code === 200) {
+          console.log(removeArticleResponse)
           commit(types.REMOVE_ARTICLE, {
             message: removeArticleResponse.message,
             commit
