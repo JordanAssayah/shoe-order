@@ -24,7 +24,7 @@
             <td style="width: 1%">{{ shoe.sizes }}</td>
             <td style="width: 10%">{{ shoe.colors }}</td>
             <td style="width: 10%">{{ shoe.price }}</td>
-            <td style="width: 10%">sole#818181_front#464646_prout#626262.png</td>
+            <td style="width: 10%">img.png</td>
             <!-- <td>{{ shoe.basePicture }}</td> -->
             <td style="width: 10%">
               <button class="button is-danger is-small is-fullwidth" @click="removeArticle(shoe.id)">
