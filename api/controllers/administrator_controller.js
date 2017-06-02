@@ -7,7 +7,6 @@ module.exports = { createAdmin }
 function createAdmin (req, res) {
   const params = req.swagger.params
   db.Administrator.create({
-    username  : params.username.value,
     password  : params.password.value,
     firstname : params.firstname.value,
     lastname  : params.lastname.value,

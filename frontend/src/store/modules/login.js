@@ -1,4 +1,5 @@
 import * as types from '../mutations-types'
+import router     from '@/router'
 
 /* eslint key-spacing: ["error", { "align": "colon" }] */
 
@@ -8,16 +9,18 @@ const state = {
     email   : '',
     password: ''
   },
-  isLoading   : false,
-  isLoggedIn  : false,
-  loginMessage: ''
+  isLoading              : false,
+  isLoggedIn             : false,
+  loginMessage           : '',
+  showUserNavOptionsModal: false
 }
 
 // getters
 const getters = {
-  getCredentials      : state => state.credentials,
-  isLoginButtonLoading: state => state.loading,
-  isLoggedIn          : state => state.isLoggedIn
+  getCredentials         : state => state.credentials,
+  isLoginButtonLoading   : state => state.loading,
+  isLoggedIn             : state => state.isLoggedIn,
+  showUserNavOptionsModal: state => state.showUserNavOptionsModal
 }
 
 // actions
@@ -44,8 +47,17 @@ const actions = {
       if (loginResponse.loggedIn) {
         commit(types.UPDATE_LOGIN_STATUS, true)
         commit(types.UPDATE_LOGIN_MESSAGE, loginResponse.message)
+        if (loginResponse.isAdmin === false) {
+          commit(types.SET_ME, loginResponse.customer)
+        } else {
+          commit(types.SET_ME, loginResponse.administrator)
+          router.push({ name: 'ManageUsers' })
+        }
       }
     })
+  },
+  toggleUserNavOptionsModal ({ commit }) {
+    commit(types.TOGGLE_USER_NAV_OPTIONS_MODAL)
   }
 }
 
@@ -69,6 +81,10 @@ const mutations = {
 
   [types.UPDATE_LOGIN_STATUS] (state, loginStatus) {
     state.isLoggedIn = loginStatus
+  },
+
+  [types.TOGGLE_USER_NAV_OPTIONS_MODAL] (state) {
+    state.showUserNavOptionsModal = state.showUserNavOptionsModal !== true
   }
 }
 

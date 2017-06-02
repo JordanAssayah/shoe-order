@@ -3,6 +3,7 @@ info:
   version: "1.0.0"
   title: Shoe Order API
 # during dev, should point to your local machine
+# during prod, should point to your public domain name
 host: localhost:10010
 # basePath prefixes all resource paths
 basePath: /api/v1
@@ -15,6 +16,7 @@ schemes:
 consumes:
   - application/json
   - application/x-www-form-urlencoded
+  - application/octet-stream
 # format of the responses to the client (Accepts)
 produces:
   - application/json
@@ -312,11 +314,6 @@ paths:
       summary: Create a new administrator
       operationId: createAdmin
       parameters:
-        - name: username
-          description: Can be anything you want
-          in: formData
-          required: true
-          type: string
         - name: password
           description: At least 8 chars
           in: formData
@@ -782,8 +779,37 @@ paths:
           schema:
             $ref: "#/definitions/DeleteCustomerByIdSuccessOrError"
 
+  /basket:
+    x-swagger-router-controller: basket_controller
+    post:
+      tags: ["basket"]
+      summary: Modify some properties of an address
+      operationId: addCustomizationToBasket
+      parameters:
+        - name: customizationId
+          description: Customization ID to add to the basket
+          in: formData
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/BasketCustomizationPostResponse"
+
 # complex objects have schema definitions
 definitions:
+
+  BasketCustomizationPostResponse:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
 
   GetCustomerOrdersListResponse:
     required:
@@ -1022,9 +1048,7 @@ definitions:
         type: object
         properties:
           parts:
-            type: array
-            items:
-              type: object
+            type: object
           size:
             type: string
 
@@ -1034,6 +1058,7 @@ definitions:
       - administrator_id
       - name
       - description
+      - base_url
       - price
       - parts
       - sizes
@@ -1044,6 +1069,8 @@ definitions:
       name:
         type: string
       description:
+        type: string
+      base_url:
         type: string
       price:
         type: string
@@ -1322,9 +1349,7 @@ definitions:
             type: object
             properties:
               parts:
-                type: array
-                items:
-                  type: object
+                type: object
               size:
                 type: string
 

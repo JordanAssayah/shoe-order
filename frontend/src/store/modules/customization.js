@@ -93,6 +93,33 @@ const actions = {
   },
   toggleCustomizeConfirmationModal ({ commit }) {
     commit(types.BUY_CUSTOMIZATION)
+  },
+  addToBasket ({ commit, state, rootState }) {
+    fetch(`http://localhost:10010/api/v1/customizations`, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({
+        article_id   : parseInt(rootState.route.params.articleId),
+        customer_id  : parseInt(rootState.me.me.id),
+        customization: state.customization
+      })
+    })
+      .then(success => success.json())
+      .then(resp => {
+        if (resp.code === 201) {
+          fetch(`http://localhost:10010/api/v1/basket`, {
+            method     : 'POST',
+            credentials: 'include',
+            headers    : { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body       : 'customizationId=' + resp.customization.id
+          })
+          .then(success => success.json())
+          .then(resp => {
+            console.log(resp)
+          })
+        }
+      })
+    commit(types.ADD_CUSTOMIZATION_TO_BASKET)
   }
 }
 
@@ -100,7 +127,7 @@ const actions = {
 const mutations = {
   [types.UPDATE_ARTICLE_CONFIGURATION_FOR_CUSTOMIZATION] (state, { article, commit }) {
     state.articleConfiguration = article
-    state.shoeImage = 'http://localhost:10010/shoes/' + article.name + '/' + encodeURIComponent('sole#818181_intern#818181.png')
+    state.shoeImage = 'http://localhost:10010/shoes/' + article.name + '/' + encodeURIComponent(article.base_url)
     actions.getImagesForThisModel({ commit, state })
   },
 
@@ -128,6 +155,10 @@ const mutations = {
   },
 
   [types.BUY_CUSTOMIZATION] (state) {
+    state.showConfirmation = state.showConfirmation !== true
+  },
+
+  [types.ADD_CUSTOMIZATION_TO_BASKET] (state) {
     state.showConfirmation = state.showConfirmation !== true
   }
 }

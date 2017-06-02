@@ -37,6 +37,7 @@ function createArticle (req, res) {
     administrator_id : articleObject.administrator_id,
     name             : articleObject.name,
     description      : articleObject.description,
+    base_url         : articleObject.base_url,
     price            : articleObject.price,
     parts            : articleObject.parts,
     sizes            : articleObject.sizes,

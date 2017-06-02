@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       article_id: {
         type: Sequelize.INTEGER,
@@ -15,6 +15,9 @@ module.exports = {
           model: 'Articles',
           key: 'id'
         },
+        validate: {
+          notEmpty: true,
+        }
       },
       customer_id: {
         type: Sequelize.INTEGER,
@@ -23,9 +26,15 @@ module.exports = {
           model: 'Customers',
           key: 'id'
         },
+        validate: {
+          notEmpty: true,
+        }
       },
       customization: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
+        validate: {
+          notEmpty: true,
+        }
       },
       created_at: {
         type: Sequelize.DATE,

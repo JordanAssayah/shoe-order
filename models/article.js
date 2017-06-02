@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     administrator_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
+    base_url: DataTypes.TEXT,
     price: DataTypes.STRING,
     parts: DataTypes.JSON,
     sizes: DataTypes.JSON,

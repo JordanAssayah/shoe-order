@@ -120,6 +120,7 @@
     </div>
 
     <CTSCustomizeConfirmModal
+      :onSuccess="addToBasket"
       :onExitModal="toggleCustomizeConfirmationModal"
       :isActive="showConfirmation"
       :actualCustomizationImgUrl="shoeImage" />
@@ -154,7 +155,8 @@ export default {
       'selectPart',
       'selectColor',
       'getArticleConfiguration',
-      'updateCustomizationSize'
+      'updateCustomizationSize',
+      'addToBasket'
     ]),
     showControls () {
       document.querySelector('.next').classList.remove('hidden')

@@ -17,22 +17,47 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+          len: [ 2, 60 ],
+        }
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        validate: {
+          notEmpty: true,
+        }
+      },
+      base_url: {
+        type: Sequelize.TEXT,
+        validate: {
+          notEmpty: true,
+        }
       },
       price: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true,
+        }
       },
       parts: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
+        validate: {
+          notEmpty: true,
+        }
       },
       sizes: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
+        validate: {
+          notEmpty: true,
+        }
       },
       colors: {
-        type: Sequelize.JSON
+        type: Sequelize.JSON,
+        validate: {
+          notEmpty: true,
+        }
       },
       created_at: {
         type: Sequelize.DATE,

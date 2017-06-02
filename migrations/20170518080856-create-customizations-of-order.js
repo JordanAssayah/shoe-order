@@ -15,6 +15,9 @@ module.exports = {
           model: 'Orders',
           key: 'id'
         },
+        validate: {
+          notEmpty: true,
+        }
       },
       customization_id: {
         type: Sequelize.INTEGER,
@@ -23,9 +26,16 @@ module.exports = {
           model: 'Customizations',
           key: 'id'
         },
+        validate: {
+          notEmpty: true,
+        }
       },
       quantity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        validate: {
+          min: 1,
+          notEmpty: true,
+        }
       },
       created_at: {
         type: Sequelize.DATE,

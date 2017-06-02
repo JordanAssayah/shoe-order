@@ -9,27 +9,30 @@ const state = {
     parts      : [''],
     name       : '',
     price      : undefined,
-    description: ''
+    description: '',
+    base_url   : ''
   },
   addModelMessage: '',
   error          : [],
-  shoesImages    : undefined
+  shoesImages    : undefined,
+  newModelImages : undefined
 }
 
 // getters
 const getters = {
-  getNewModelSpec: state => state.newModelSpec
+  getNewModelSpec: state => state.newModelSpec,
+  newModelImages : state => state.newModelImages
 }
 
 // actions
 const actions = {
-  addNewModelSpecInDB ({ commit, state }) {
+  addNewModelSpecInDB ({ commit, state, rootState }) {
     if (state.shoesImages === undefined) {
       commit(types.ADD_IMAGES_ERROR)
     } else {
       const plainObject = {
         ...state.newModelSpec,
-        administrator_id: 1
+        administrator_id: rootState.me.id
       }
 
       fetch('http://localhost:10010/api/v1/articles', {
@@ -98,15 +101,27 @@ const actions = {
   updateShoesImages ({ commit, state }, evt) {
     let formData = new FormData()
     formData.append('modelName', state.newModelSpec.name)
+    commit(types.PUSH_NEW_MODEL_IMAGES, evt.target.files)
     for (const file of evt.target.files) {
       formData.append('images', file, file.name)
     }
     commit(types.UPDATE_SHOES_IMAGES, formData)
+  },
+  updateBaseUrl ({ commit }, baseUrl) {
+    commit(types.UPDATE_BASE_URL_IMAGE, baseUrl)
   }
 }
 
 // mutations
 const mutations = {
+
+  [types.UPDATE_BASE_URL_IMAGE] (state, baseUrl) {
+    state.newModelSpec.base_url = baseUrl
+  },
+
+  [types.PUSH_NEW_MODEL_IMAGES] (state, array) {
+    state.newModelImages = array
+  },
 
   [types.ADD_NEW_MODEL_IN_DB] (state) {
     state.newModelSpec = {
@@ -115,7 +130,8 @@ const mutations = {
       parts      : [''],
       name       : '',
       price      : undefined,
-      description: ''
+      description: '',
+      base_url   : ''
     }
     state.addModelMessage = ''
     state.error           = []
